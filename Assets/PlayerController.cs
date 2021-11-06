@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 namespace Team73.Round5.Racing
 {
     public class PlayerController : MonoBehaviour
     {
+        [Header("General")]
+        [SerializeField] private bool useTracker = false;
+        [SerializeField] private GameObject leftController;
+        [SerializeField] private GameObject rightController;
+
         [Header("Movement")]
         [SerializeField] private float verticalForceMulti = 10.0f;
         [SerializeField] private float horizontalForceMulti = 5.0f;
@@ -34,10 +40,19 @@ namespace Team73.Round5.Racing
         
         void Update()
         {
+            GetTrackerTransform();
             AddDirectionalForce();
             AddForwardForce();
             // ProcessRotation();
             ControlDrag();
+        }
+
+        void GetTrackerTransform()
+        {
+            Vector3 trackerLPosition = leftController.transform.position;
+            Vector3 trackerRPosition = rightController.transform.position;
+            Debug.LogFormat("Left tracker position: {0}", trackerLPosition);
+            Debug.LogFormat("Right tracker position: {0}", trackerRPosition);
         }
         
         private void FixedUpdate()

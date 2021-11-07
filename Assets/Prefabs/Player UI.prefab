@@ -106,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNameText: {fileID: 2410865227623474889}
   playerHealthSlider: {fileID: 2410865226963964239}
+  screenOffset: {x: 0, y: 70, z: 0}
 --- !u!1 &2410865227024091305
 GameObject:
   m_ObjectHideFlags: 0

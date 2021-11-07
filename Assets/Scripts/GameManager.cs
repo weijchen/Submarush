@@ -40,13 +40,18 @@ namespace Team73.Round5.Racing
                 if (PlayerManager.LocalPlayerInstance == null)
                 {
                     Debug.LogFormat("Instantiate player prefab {0}", SceneManager.GetActiveScene().name);
-                    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);    
+                    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+
+                    // if (!player.GetPhotonView().IsMine)
+                        // return;
+                    // player.transform.Find("Meca").transform.Find("Camera").gameObject.GetComponent<CameraController>().enabled = true;
+                    // player.transform.Find("Meca").transform.Find("Camera").gameObject.GetComponent<CameraController>().SetTarget(player.transform.Find("Meca").transform);
+                    // player.transform.Find("Meca").transform.Find("Camera").gameObject.SetActive(true);
                 }
                 else
                 {
                     Debug.LogFormat("Ignore scene loading for {0}", SceneManagerHelper.ActiveSceneName);
                 }
-                
             }
         }
 

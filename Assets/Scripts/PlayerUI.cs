@@ -16,10 +16,10 @@ namespace Team73.Round5.Racing
         [SerializeField] private Slider playerHealthSlider;
         
         [Tooltip("UI distance")]
-        [SerializeField] private Vector3 screenOffset = new Vector3(0f, 30f, 0f);
+        [SerializeField] private Vector3 screenOffset = new Vector3(0f, 70f, 0f);
  
         float characterControllerHeight = 0f;
-        private PlayerManager target;
+        private PlayerManager playerManager;
 
         Transform targetTransform;
         Vector3 targetPosition;
@@ -31,10 +31,18 @@ namespace Team73.Round5.Racing
 
         private void Update()
         {
-            if (target == null)
+            if (playerManager == null)
             {
                 Destroy(gameObject);
                 return;
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (playerManager != null)
+            {
+                transform.position = Camera.main.WorldToScreenPoint(playerManager.transform.position) + screenOffset;
             }
         }
 
@@ -46,10 +54,10 @@ namespace Team73.Round5.Racing
                 return;
             }
 
-            target = _target;
+            playerManager = _target;
             if (playerNameText != null)
             {
-                playerNameText.text = target.GetPhotonView().Owner.NickName;
+                playerNameText.text = playerManager.GetPhotonView().Owner.NickName;
             }
         }
     }

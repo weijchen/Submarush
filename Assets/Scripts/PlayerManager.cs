@@ -5,14 +5,13 @@ using Photon.Pun;
 using UnityEngine;
 using Photon.Pun.Demo.PunBasics;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static GameObject LocalPlayerInstance;
     
-    [Tooltip("指標- GameObject PlayerUI")]
+    [Tooltip("GameObject PlayerUI")]
     [SerializeField] public GameObject PlayerUIPrefab;
     
-    private CameraWork _cameraWork;
     private PhotonView _photonView;
 
     private void Awake()
@@ -28,10 +27,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        _cameraWork = GetComponent<CameraWork>();
-
-        InstantiatePlayerUI();
         AdjustCameraWork();
+        InstantiatePlayerUI();
         
         #if UNITY_5_4_OR_NEWER
         UnityEngine.SceneManagement.SceneManager.sceneLoaded += 
@@ -39,7 +36,7 @@ public class PlayerManager : MonoBehaviour
             {
                 if (this != null)
                 {
-                    this.CalledOnLevelWasLoaded(scene.buildIndex);
+                    CalledOnLevelWasLoaded(scene.buildIndex);
                 }
             };
         #endif
@@ -47,6 +44,8 @@ public class PlayerManager : MonoBehaviour
 
     private void AdjustCameraWork()
     {
+        CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+        
         if (_cameraWork != null)
         {
             if (_photonView.IsMine)
@@ -64,8 +63,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (PlayerUIPrefab != null)
         {
-            GameObject _uiGo = Instantiate(PlayerUIPrefab);
-            _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+            if (_photonView.IsMine)
+            {
+                GameObject _uiGo = Instantiate(PlayerUIPrefab);
+                _uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);    
+            }
         }
         else
         {
@@ -94,5 +96,10 @@ public class PlayerManager : MonoBehaviour
     public PhotonView GetPhotonView()
     {
         return _photonView;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        
     }
 }

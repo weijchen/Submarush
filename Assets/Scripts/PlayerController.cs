@@ -30,6 +30,8 @@ namespace Team73.Round5.Racing
         private Rigidbody _rigidbody;
         private AudioSource _audioSource;
         private PhotonView _photonView;
+        private Vector3 trackerLPosition;
+        private Vector3 trackerRPosition;
         
         private float xThrow;
         private float yThrow;
@@ -55,8 +57,8 @@ namespace Team73.Round5.Racing
 
         void GetTrackerTransform()
         {
-            Vector3 trackerLPosition = leftController.transform.position;
-            Vector3 trackerRPosition = rightController.transform.position;
+            trackerLPosition = leftController.transform.position;
+            trackerRPosition = rightController.transform.position;
             // Debug.LogFormat("Left tracker position: {0}", trackerLPosition);
             // Debug.LogFormat("Right tracker position: {0}", trackerRPosition);
         }
@@ -74,29 +76,71 @@ namespace Team73.Round5.Racing
         
         private void AddDirectionalForce()
         {
-            float verticalForce = Input.GetAxisRaw("Vertical") * verticalForceMulti;
-            float horizontalForce = Input.GetAxisRaw("Horizontal") * horizontalForceMulti;
+            float verticalForce;
+            float horizontalForce;
+            
+            if (useTracker)
+            {
+                float leftForwardForce = trackerLPosition.z;
+                float rightForwardForce = trackerRPosition.z;
+                horizontalForce = leftForwardForce > rightForwardForce ? horizontalForceMulti : -horizontalForceMulti;
+                
+                float leftVertForce = trackerLPosition.y;
+                float rightVertForce = trackerRPosition.y;
+                float vertForce = (leftVertForce + rightVertForce) / 2;
 
-            moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+                verticalForce = vertForce >= 0 ? verticalForceMulti : -verticalForceMulti;
+                moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+            }
+            else
+            {
+                verticalForce = Input.GetAxisRaw("Vertical") * verticalForceMulti;
+                horizontalForce = Input.GetAxisRaw("Horizontal") * horizontalForceMulti;
+
+                moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+            }
         }
         
         private void AddForwardForce()
         {
-            bool hasForwardForce = Input.GetKey(KeyCode.LeftShift);
-            bool hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
-            if (hasForwardForce)
+            if (useTracker)
             {
-                moveInputVal += transform.forward * forwardForceMulti;
-            }
-            
-            if (hasBackwardForce)
-            {
-                moveInputVal += transform.forward * -forwardForceMulti;
-                
-                // Brake
-                if (moveInputVal.z <= 0)
+                float leftForwardForce = trackerLPosition.z;
+                float rightForwardForce = trackerRPosition.z;
+                float forwardForce = (leftForwardForce + rightForwardForce) / 2;
+
+                if (forwardForce >= 0)
                 {
-                    moveInputVal.z = 0;
+                    moveInputVal += transform.forward * forwardForceMulti;
+                }
+                else
+                {
+                    moveInputVal += transform.forward * -forwardForceMulti;
+                
+                    // Brake
+                    if (moveInputVal.z <= 0)
+                    {
+                        moveInputVal.z = 0;
+                    }
+                }
+            }
+            else
+            {
+                bool hasForwardForce = Input.GetKey(KeyCode.LeftShift);
+                bool hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
+                if (hasForwardForce)
+                {
+                    moveInputVal += transform.forward * forwardForceMulti;
+                }
+                if (hasBackwardForce)
+                {
+                    moveInputVal += transform.forward * -forwardForceMulti;
+                
+                    // Brake
+                    if (moveInputVal.z <= 0)
+                    {
+                        moveInputVal.z = 0;
+                    }
                 }
             }
         }

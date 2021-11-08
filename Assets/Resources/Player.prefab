@@ -4910,7 +4910,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -9772,7 +9772,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -14634,7 +14634,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -19496,7 +19496,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -24857,7 +24857,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8164078558233808869}
-  m_Mesh: {fileID: -2432090755550338912, guid: 483babadedfaa504c9b211623138235f, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 1708a5187cf5e9f41bdadb1df4054499, type: 3}
 --- !u!23 &1587545474455814400
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24877,7 +24877,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3033667219593020291, guid: 483babadedfaa504c9b211623138235f, type: 3}
+  - {fileID: 2100000, guid: 8b0f90df63c5bb84b88704e8a9d1705d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24947,6 +24947,10 @@ MonoBehaviour:
   runClip: {fileID: 8300000, guid: 375c6ec8091e214419da43c303c934c8, type: 3}
   hitClip: {fileID: 8300000, guid: 2ee0d6d8a2f848d4ba04c74702f9b28b, type: 3}
   hitParticle: {fileID: 1212337572}
+  LeftEngineParticleOne: {fileID: 1939413281}
+  LeftEngineParticleTwo: {fileID: 1877243036}
+  RightEngineParticleOne: {fileID: 1896074476}
+  RightEngineParticleTwo: {fileID: 2030704822}
   verticalForceMulti: 7.5
   horizontalForceMulti: 7.5
   maxDirSpeed: 100

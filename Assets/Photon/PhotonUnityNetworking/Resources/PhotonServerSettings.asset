@@ -15,9 +15,9 @@ MonoBehaviour:
   AppSettings:
     AppIdRealtime: 33eafa6c-81ad-4a11-9ef4-2021c918b202
     AppIdFusion: 
-    AppIdChat: f9eee8b3-0554-4d6f-8a38-0174c42fef50
+    AppIdChat: 
     AppIdVoice: 
-    AppVersion: 1
+    AppVersion: 
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -29,7 +29,7 @@ MonoBehaviour:
     EnableLobbyStatistics: 0
     NetworkLogging: 1
   DevRegion: 
-  PunLogging: 2
+  PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
@@ -40,5 +40,5 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
-  DevRegionSetOnce: 1
+  ShowSettings: 0
+  DevRegionSetOnce: 0

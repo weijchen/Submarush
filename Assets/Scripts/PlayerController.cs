@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using Valve.VR;
@@ -20,7 +21,10 @@ namespace Team73.Round5.Racing
         [SerializeField] private float forwardForceMulti = 2.0f;
         [SerializeField] private float drag = 2.0f;
         [SerializeField] private float rotationMulti = 0.15f;
-        
+        [SerializeField] private float verticalThreshold = 0.15f;
+        [SerializeField] private float horizontalThreshold = 0.25f;
+        [SerializeField] private float forwardThreshold = 0.25f;
+
         [Header("Rotation")]
         [SerializeField] private Transform rotationBody;
         [SerializeField] private float controlRollFactor = -20.0f;
@@ -32,26 +36,74 @@ namespace Team73.Round5.Racing
         private PhotonView _photonView;
         private Vector3 trackerLPosition;
         private Vector3 trackerRPosition;
-        
+        private float initTrackLPosX;
+        private float initTrackLPosY;
+        private float initTrackLPosZ;
+        private float initTrackRPosX;
+        private float initTrackRPosY;
+        private float initTrackRPosZ;
+
         private float xThrow;
         private float yThrow;
+        private bool isCalibrating = true;
 
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
             _audioSource = GetComponent<AudioSource>();
             _photonView = GetComponent<PhotonView>();
+
+            trackerLPosition = leftController.transform.position;
+            trackerRPosition = rightController.transform.position;
+            Calibration();
         }
-        
+
+        void Calibration()
+        {
+            StartCoroutine(StartCalibration(0.01f, 2.0f));
+        }
+
+        IEnumerator StartCalibration(float smoothness, float duration)
+        {
+            float progress = 0f;
+            List<float> xListL = new List<float>();
+            List<float> yListL = new List<float>();
+            List<float> zListL = new List<float>();
+            List<float> xListR = new List<float>();
+            List<float> yListR = new List<float>();
+            List<float> zListR = new List<float>();
+            while (progress <= duration)
+            {
+                progress += smoothness;
+                xListL.Add(trackerLPosition.x);
+                yListL.Add(trackerLPosition.y);
+                zListL.Add(trackerLPosition.z);
+                xListR.Add(trackerRPosition.x);
+                yListR.Add(trackerRPosition.y);
+                zListR.Add(trackerRPosition.z);
+                yield return new WaitForSeconds(smoothness);
+            }
+            initTrackLPosX = xListL.Average();
+            initTrackLPosY = yListL.Average();
+            initTrackLPosZ = zListL.Average();
+            initTrackRPosX = xListR.Average();
+            initTrackRPosY = yListR.Average();
+            initTrackRPosZ = zListR.Average();
+            isCalibrating = false;
+        }
+
         void Update()
         {
             if (_photonView.IsMine)
             {
                 GetTrackerTransform();
-                AddDirectionalForce();
-                AddForwardForce();
-                // ProcessRotation();
-                ControlDrag();    
+                if (!isCalibrating)
+                {
+                    AddDirectionalForce();
+                    AddForwardForce();
+                    // ProcessRotation();
+                    ControlDrag();
+                }
             }
         }
 
@@ -59,12 +111,11 @@ namespace Team73.Round5.Racing
         {
             trackerLPosition = leftController.transform.position;
             trackerRPosition = rightController.transform.position;
-            // Debug.LogFormat("Left tracker position: {0}", trackerLPosition);
-            // Debug.LogFormat("Right tracker position: {0}", trackerRPosition);
         }
         
         private void FixedUpdate()
         {
+            Debug.Log(moveInputVal);
             _rigidbody.AddForce(moveInputVal, ForceMode.Acceleration);
             
             // Set Speed Maximum Limit
@@ -81,15 +132,43 @@ namespace Team73.Round5.Racing
             
             if (useTracker)
             {
-                float leftForwardForce = trackerLPosition.z;
-                float rightForwardForce = trackerRPosition.z;
-                horizontalForce = leftForwardForce > rightForwardForce ? horizontalForceMulti : -horizontalForceMulti;
+                float leftForwardForce = trackerLPosition.z - initTrackLPosZ;
+                float rightForwardForce = trackerRPosition.z - initTrackRPosZ;
                 
-                float leftVertForce = trackerLPosition.y;
-                float rightVertForce = trackerRPosition.y;
-                float vertForce = (leftVertForce + rightVertForce) / 2;
+                float horizontalDiff = leftForwardForce - rightForwardForce;
+                //Debug.LogFormat("Horizontal Force: {0}", horizontalDiff);
+                if (horizontalDiff >= horizontalThreshold)
+                {
+                    horizontalForce = -horizontalForceMulti;
+                }
+                else if (horizontalDiff <= -horizontalThreshold)
+                {
+                    horizontalForce = horizontalForceMulti;
+                } 
+                else
+                {
+                    horizontalForce = 0f;
+                }
 
-                verticalForce = vertForce >= 0 ? verticalForceMulti : -verticalForceMulti;
+                float leftVertForce = trackerLPosition.y - initTrackLPosY;
+                float rightVertForce = trackerRPosition.y - initTrackRPosY;
+                float vertForce = (leftVertForce + rightVertForce) / 2;
+                //Debug.LogFormat("Vertical Force: {0}", vertForce);
+
+                if (vertForce >= verticalThreshold)
+                {
+                    verticalForce = verticalForceMulti;
+                } 
+                else if (vertForce <= -verticalThreshold)
+                {
+                    verticalForce = -verticalForceMulti;
+                } 
+                else
+                {
+                    verticalForce = 0f;
+                }
+                Debug.Log(Input.GetAxisRaw("Vertical"));
+                Debug.Log(Input.GetAxisRaw("Horizontal"));
                 moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
             }
             else
@@ -105,18 +184,31 @@ namespace Team73.Round5.Racing
         {
             if (useTracker)
             {
-                float leftForwardForce = trackerLPosition.z;
-                float rightForwardForce = trackerRPosition.z;
+                float leftForwardForce = trackerLPosition.z - initTrackLPosZ;
+                float rightForwardForce = trackerRPosition.z - initTrackRPosZ;
                 float forwardForce = (leftForwardForce + rightForwardForce) / 2;
 
-                if (forwardForce >= 0)
+                /*
+                Debug.LogFormat("(L) Forward force: {0}", leftForwardForce);
+                Debug.LogFormat("(R) Forward force: {0}", rightForwardForce);
+                Debug.LogFormat("(M) Forward force: {0}", forwardForce);
+                */
+
+                if (forwardForce <= -forwardThreshold)
                 {
                     moveInputVal += transform.forward * forwardForceMulti;
                 }
                 else
                 {
-                    moveInputVal += transform.forward * -forwardForceMulti;
-                
+                    if (leftForwardForce <= -forwardThreshold || rightForwardForce <= -forwardThreshold)
+                    {
+                        moveInputVal += transform.forward * forwardForceMulti / 2;
+                    } 
+                    else
+                    {
+                        moveInputVal += transform.forward * -forwardForceMulti;
+                    }
+
                     // Brake
                     if (moveInputVal.z <= 0)
                     {

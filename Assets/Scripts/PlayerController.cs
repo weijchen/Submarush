@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using Photon.Pun;
 using UnityEngine;
 using Valve.VR;
@@ -13,6 +15,15 @@ namespace Team73.Round5.Racing
         [SerializeField] private bool useTracker = false;
         [SerializeField] private GameObject leftController;
         [SerializeField] private GameObject rightController;
+        [SerializeField] private AudioClip runClip;
+        [SerializeField] private AudioClip hitClip;
+        
+        [Header("VFX")]
+        [SerializeField] private ParticleSystem hitParticle;
+        [SerializeField] private ParticleSystem LeftEngineParticleOne;
+        [SerializeField] private ParticleSystem LeftEngineParticleTwo;
+        [SerializeField] private ParticleSystem RightEngineParticleOne;
+        [SerializeField] private ParticleSystem RightEngineParticleTwo;
 
         [Header("Movement")]
         [SerializeField] private float verticalForceMulti = 10.0f;
@@ -90,6 +101,10 @@ namespace Team73.Round5.Racing
             initTrackRPosY = yListR.Average();
             initTrackRPosZ = zListR.Average();
             isCalibrating = false;
+            LeftEngineParticleOne.Play();
+            LeftEngineParticleTwo.Play();
+            RightEngineParticleOne.Play();
+            RightEngineParticleTwo.Play();
         }
 
         void Update()
@@ -115,7 +130,6 @@ namespace Team73.Round5.Racing
         
         private void FixedUpdate()
         {
-            Debug.Log(moveInputVal);
             _rigidbody.AddForce(moveInputVal, ForceMode.Acceleration);
             
             // Set Speed Maximum Limit
@@ -248,6 +262,15 @@ namespace Team73.Round5.Racing
         private void ControlDrag()
         {
             _rigidbody.drag = drag;
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (other.transform.CompareTag("Obstacles"))
+            {
+                SoundManager.Instance.PlaySFX(hitClip);
+                hitParticle.Play();
+            }
         }
     }
 }

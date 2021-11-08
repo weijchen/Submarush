@@ -6,6 +6,7 @@ using System.Security;
 using Photon.Pun;
 using UnityEngine;
 using Valve.VR;
+using TMPro;
 
 namespace Team73.Round5.Racing
 {
@@ -17,6 +18,8 @@ namespace Team73.Round5.Racing
         [SerializeField] private GameObject rightController;
         [SerializeField] private AudioClip runClip;
         [SerializeField] private AudioClip hitClip;
+        [SerializeField] private float calibrationSmoothness = 0.01f;
+        [SerializeField] private float calibrationDuration = 4.0f;
         
         [Header("VFX")]
         [SerializeField] private ParticleSystem hitParticle;
@@ -37,8 +40,8 @@ namespace Team73.Round5.Racing
         [SerializeField] private float forwardThreshold = 0.25f;
 
         [Header("Rotation")]
-        [SerializeField] private Transform rotationBody;
-        [SerializeField] private float controlRollFactor = -20.0f;
+        [SerializeField] private float controlYawFactor = 2.0f;
+        [SerializeField] private float controlPitchFactor = 2.0f;
         
         private Vector3 moveInputVal = Vector3.zero;
         
@@ -71,12 +74,13 @@ namespace Team73.Round5.Racing
 
         void Calibration()
         {
-            StartCoroutine(StartCalibration(0.01f, 2.0f));
+            StartCoroutine(StartCalibration(calibrationSmoothness, calibrationDuration));
         }
 
         IEnumerator StartCalibration(float smoothness, float duration)
         {
             float progress = 0f;
+            string calibrateString;
             List<float> xListL = new List<float>();
             List<float> yListL = new List<float>();
             List<float> zListL = new List<float>();
@@ -92,6 +96,19 @@ namespace Team73.Round5.Racing
                 xListR.Add(trackerRPosition.x);
                 yListR.Add(trackerRPosition.y);
                 zListR.Add(trackerRPosition.z);
+                if (progress <= 1)
+                {
+                    calibrateString = "Ready";
+                }
+                else if (progress >= duration-1)
+                {
+                    calibrateString = "Go!";
+                }
+                else
+                {
+                    calibrateString = Mathf.RoundToInt(duration - progress).ToString();
+                }
+                UIManager.Instance.SetCalibrateWord(calibrateString);
                 yield return new WaitForSeconds(smoothness);
             }
             initTrackLPosX = xListL.Average();
@@ -101,6 +118,7 @@ namespace Team73.Round5.Racing
             initTrackRPosY = yListR.Average();
             initTrackRPosZ = zListR.Average();
             isCalibrating = false;
+            UIManager.Instance.FinishCalibrate();
             LeftEngineParticleOne.Play();
             LeftEngineParticleTwo.Play();
             RightEngineParticleOne.Play();
@@ -116,7 +134,7 @@ namespace Team73.Round5.Racing
                 {
                     AddDirectionalForce();
                     AddForwardForce();
-                    // ProcessRotation();
+                    ProcessRotation();
                     ControlDrag();
                 }
             }
@@ -181,17 +199,16 @@ namespace Team73.Round5.Racing
                 {
                     verticalForce = 0f;
                 }
-                Debug.Log(Input.GetAxisRaw("Vertical"));
-                Debug.Log(Input.GetAxisRaw("Horizontal"));
                 moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
             }
             else
             {
                 verticalForce = Input.GetAxisRaw("Vertical") * verticalForceMulti;
                 horizontalForce = Input.GetAxisRaw("Horizontal") * horizontalForceMulti;
-
                 moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
             }
+            xThrow = horizontalForce;
+            yThrow = verticalForce;
         }
         
         private void AddForwardForce()
@@ -251,13 +268,12 @@ namespace Team73.Round5.Racing
             }
         }
         
-        // TODO: meca rotation will be done after having the meca model
-        // private void ProcessRotation()
-        // {
-        //     float row = xThrow * controlRollFactor;
-        //     rotationBody.localRotation = Quaternion.Euler(row,-90.0f, 0);
-        //     transform.Rotate(0.0f, Input.GetAxisRaw("Horizontal") * rotationMulti, 0.0f);
-        // }
+        private void ProcessRotation()
+        {
+            float yaw = xThrow * controlYawFactor;
+            float pitch = yThrow * controlPitchFactor;
+            transform.localRotation = Quaternion.Euler(-pitch,yaw, 0);
+        }
 
         private void ControlDrag()
         {

@@ -15,7 +15,8 @@ namespace Team73.Round5.Racing
         public static GameManager Instance = null;
 
         [Tooltip("Prefab")] 
-        public GameObject playerPrefab;
+        public GameObject playerOnePrefab;
+        public GameObject playerTwoPrefab;
 
         private void Awake()
         {
@@ -31,7 +32,7 @@ namespace Team73.Round5.Racing
 
         private void Start()
         {
-            if (playerPrefab == null)
+            if (playerOnePrefab == null || playerTwoPrefab == null)
             {
                 Debug.LogError("playerPrefab is missing, please set in Game Manager");
             }
@@ -40,7 +41,14 @@ namespace Team73.Round5.Racing
                 if (PlayerManager.LocalPlayerInstance == null)
                 {
                     Debug.LogFormat("Instantiate player prefab {0}", SceneManager.GetActiveScene().name);
-                    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    if (!PhotonNetwork.IsMasterClient)
+                    {
+                        PhotonNetwork.Instantiate(playerOnePrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    }
+                    else
+                    {
+                        PhotonNetwork.Instantiate(playerTwoPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+                    }
 
                     // if (!player.GetPhotonView().IsMine)
                         // return;

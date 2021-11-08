@@ -33,7 +33,7 @@ public class MoveObj : MonoBehaviour
         }
         else
         {
-            offsetVec = startUp ? new Vector3(0, -offset, 0) : new Vector3(0, offset, 0);
+            offsetVec = startUp ? new Vector3(0, offset, 0) : new Vector3(0, -offset, 0);
         }
         
         while (true)

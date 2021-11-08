@@ -7,11 +7,14 @@ namespace Team73.Round5.Racing
 {    
     public class CheckDevice : MonoBehaviour
     {
-        public GameObject Device1;
-        public GameObject Device2;
+        public SteamVR_TrackedObject Device1;
+        public SteamVR_TrackedObject Device2;
 
         void Start()
         {
+            Device1 = FindObjectsOfType<SteamVR_TrackedObject>()[0];
+            Device2 = FindObjectsOfType<SteamVR_TrackedObject>()[1];
+            
             uint index1 = 0;
             uint index2 = 0;
             var error = ETrackedPropertyError.TrackedProp_Success;

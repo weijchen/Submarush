@@ -18,6 +18,8 @@ namespace Team73.Round5.Racing
         public GameObject playerOnePrefab;
         public GameObject playerTwoPrefab;
 
+        [SerializeField] public bool useTracker = false;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -28,6 +30,7 @@ namespace Team73.Round5.Racing
             {
                 Instance = this;
             }
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()

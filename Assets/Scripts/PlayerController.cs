@@ -13,7 +13,6 @@ namespace Team73.Round5.Racing
     public class PlayerController : MonoBehaviour
     {
         [Header("General")]
-        [SerializeField] private bool useTracker = false;
         [SerializeField] private GameObject leftController;
         [SerializeField] private GameObject rightController;
         [SerializeField] private AudioClip runClip;
@@ -162,7 +161,7 @@ namespace Team73.Round5.Racing
             float verticalForce;
             float horizontalForce;
             
-            if (useTracker)
+            if (GameManager.Instance.useTracker)
             {
                 float leftForwardForce = trackerLPosition.z - initTrackLPosZ;
                 float rightForwardForce = trackerRPosition.z - initTrackRPosZ;
@@ -213,7 +212,7 @@ namespace Team73.Round5.Racing
         
         private void AddForwardForce()
         {
-            if (useTracker)
+            if (GameManager.Instance.useTracker)
             {
                 float leftForwardForce = trackerLPosition.z - initTrackLPosZ;
                 float rightForwardForce = trackerRPosition.z - initTrackRPosZ;

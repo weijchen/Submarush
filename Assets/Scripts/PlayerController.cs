@@ -15,10 +15,6 @@ namespace Team73.Round5.Racing
         [Header("General")]
         [SerializeField] private GameObject leftController;
         [SerializeField] private GameObject rightController;
-        [SerializeField] private AudioClip runClip;
-        [SerializeField] private AudioClip hitClip;
-        [SerializeField] private float calibrationSmoothness = 0.01f;
-        [SerializeField] private float calibrationDuration = 4.0f;
         [SerializeField] private Transform spinPoint;
         
         [Header("VFX")]
@@ -28,21 +24,6 @@ namespace Team73.Round5.Racing
         [SerializeField] private ParticleSystem RightEngineParticleOne;
         [SerializeField] private ParticleSystem RightEngineParticleTwo;
 
-        [Header("Movement")]
-        [SerializeField] private float verticalForceMulti = 10.0f;
-        [SerializeField] private float horizontalForceMulti = 5.0f;
-        [SerializeField] private float maxDirSpeed = 100.0f;
-        [SerializeField] private float forwardForceMulti = 2.0f;
-        [SerializeField] private float drag = 2.0f;
-        [SerializeField] private float rotationMulti = 0.15f;
-        [SerializeField] private float verticalThreshold = 0.15f;
-        [SerializeField] private float horizontalThreshold = 0.25f;
-        [SerializeField] private float forwardThreshold = 0.25f;
-
-        [Header("Rotation")]
-        [SerializeField] private float controlYawFactor = 2.0f;
-        [SerializeField] private float controlPitchFactor = 2.0f;
-        
         private Vector3 moveInputVal = Vector3.zero;
         
         private Rigidbody _rigidbody;
@@ -74,7 +55,7 @@ namespace Team73.Round5.Racing
 
         void Calibration()
         {
-            StartCoroutine(StartCalibration(calibrationSmoothness, calibrationDuration));
+            StartCoroutine(StartCalibration(GameManager.Instance.calibrationSmoothness, GameManager.Instance.calibrationDuration));
         }
 
         IEnumerator StartCalibration(float smoothness, float duration)
@@ -151,9 +132,9 @@ namespace Team73.Round5.Racing
             _rigidbody.AddForce(moveInputVal, ForceMode.Acceleration);
             
             // Set Speed Maximum Limit
-            if (_rigidbody.velocity.magnitude > maxDirSpeed)
+            if (_rigidbody.velocity.magnitude > GameManager.Instance.maxDirSpeed)
             { 
-                _rigidbody.velocity = _rigidbody.velocity.normalized * maxDirSpeed * Time.deltaTime;
+                _rigidbody.velocity = _rigidbody.velocity.normalized * GameManager.Instance.maxDirSpeed * Time.deltaTime;
             }
         }
         
@@ -169,13 +150,13 @@ namespace Team73.Round5.Racing
                 
                 float horizontalDiff = leftForwardForce - rightForwardForce;
                 //Debug.LogFormat("Horizontal Force: {0}", horizontalDiff);
-                if (horizontalDiff >= horizontalThreshold)
+                if (horizontalDiff >= GameManager.Instance.horizontalThreshold)
                 {
-                    horizontalForce = -horizontalForceMulti;
+                    horizontalForce = -GameManager.Instance.horizontalForceMulti;
                 }
-                else if (horizontalDiff <= -horizontalThreshold)
+                else if (horizontalDiff <= -GameManager.Instance.horizontalThreshold)
                 {
-                    horizontalForce = horizontalForceMulti;
+                    horizontalForce = GameManager.Instance.horizontalForceMulti;
                 } 
                 else
                 {
@@ -187,13 +168,13 @@ namespace Team73.Round5.Racing
                 float vertForce = (leftVertForce + rightVertForce) / 2;
                 //Debug.LogFormat("Vertical Force: {0}", vertForce);
 
-                if (vertForce >= verticalThreshold)
+                if (vertForce >= GameManager.Instance.verticalThreshold)
                 {
-                    verticalForce = verticalForceMulti;
+                    verticalForce = GameManager.Instance.verticalForceMulti;
                 } 
-                else if (vertForce <= -verticalThreshold)
+                else if (vertForce <= -GameManager.Instance.verticalThreshold)
                 {
-                    verticalForce = -verticalForceMulti;
+                    verticalForce = -GameManager.Instance.verticalForceMulti;
                 } 
                 else
                 {
@@ -203,8 +184,8 @@ namespace Team73.Round5.Racing
             }
             else
             {
-                verticalForce = Input.GetAxisRaw("Vertical") * verticalForceMulti;
-                horizontalForce = Input.GetAxisRaw("Horizontal") * horizontalForceMulti;
+                verticalForce = Input.GetAxisRaw("Vertical") * GameManager.Instance.verticalForceMulti;
+                horizontalForce = Input.GetAxisRaw("Horizontal") * GameManager.Instance.horizontalForceMulti;
                 moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
             }
 
@@ -220,26 +201,25 @@ namespace Team73.Round5.Racing
                 float leftForwardForce = trackerLPosition.z - initTrackLPosZ;
                 float rightForwardForce = trackerRPosition.z - initTrackRPosZ;
                 float forwardForce = (leftForwardForce + rightForwardForce) / 2;
-
                 /*
                 Debug.LogFormat("(L) Forward force: {0}", leftForwardForce);
                 Debug.LogFormat("(R) Forward force: {0}", rightForwardForce);
                 Debug.LogFormat("(M) Forward force: {0}", forwardForce);
                 */
 
-                if (forwardForce <= -forwardThreshold)
+                if (forwardForce <= -GameManager.Instance.forwardThreshold)
                 {
-                    moveInputVal += transform.forward * forwardForceMulti;
+                    moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
                 }
                 else
                 {
-                    if (leftForwardForce <= -forwardThreshold || rightForwardForce <= -forwardThreshold)
+                    if (leftForwardForce <= -GameManager.Instance.forwardThreshold || rightForwardForce <= -GameManager.Instance.forwardThreshold)
                     {
-                        moveInputVal += transform.forward * forwardForceMulti / 2;
+                        moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti / 2;
                     } 
                     else
                     {
-                        moveInputVal += transform.forward * -forwardForceMulti;
+                        moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
                     }
 
                     // Brake
@@ -255,11 +235,11 @@ namespace Team73.Round5.Racing
                 bool hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
                 if (hasForwardForce)
                 {
-                    moveInputVal += transform.forward * forwardForceMulti;
+                    moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
                 }
                 if (hasBackwardForce)
                 {
-                    moveInputVal += transform.forward * -forwardForceMulti;
+                    moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
                 
                     // Brake
                     if (moveInputVal.z <= 0)
@@ -272,30 +252,21 @@ namespace Team73.Round5.Racing
         
         private void ProcessRotation()
         {
-            float yaw = xThrow * controlYawFactor;
-            float pitch = yThrow * controlPitchFactor;
-            if (pitch != 0f)
-            {
-                transform.localRotation = Quaternion.Euler(-pitch,0, 0);
-            }
-            else
-            {
-                transform.localRotation = Quaternion.Euler(0,0, 0);
-            }
-            // transform.RotateAround(spinPoint.position, Vector3.right, -pitch * rotationMulti);
-            transform.RotateAround(spinPoint.position, Vector3.up, yaw * rotationMulti);
+            float yaw = xThrow * GameManager.Instance.controlYawFactor;
+            // float pitch = yThrow * controlPitchFactor;
+            transform.RotateAround(spinPoint.position, Vector3.up, yaw * GameManager.Instance.rotationMulti);
         }
 
         private void ControlDrag()
         {
-            _rigidbody.drag = drag;
+            _rigidbody.drag = GameManager.Instance.drag;
         }
 
         private void OnCollisionEnter(Collision other)
         {
             if (other.transform.CompareTag("Obstacles"))
             {
-                SoundManager.Instance.PlaySFX(hitClip);
+                SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
                 hitParticle.Play();
             }
         }

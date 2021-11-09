@@ -30,7 +30,6 @@ namespace Team73.Round5.Racing
             {
                 Instance = this;
             }
-            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()

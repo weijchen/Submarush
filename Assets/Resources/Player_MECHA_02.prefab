@@ -24703,7 +24703,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5637593abe2a29b468a5ee8ffd7616dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useTracker: 0
   leftController: {fileID: 5372282750719009623}
   rightController: {fileID: 7025447228468740085}
   runClip: {fileID: 8300000, guid: 375c6ec8091e214419da43c303c934c8, type: 3}

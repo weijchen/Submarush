@@ -24704,17 +24704,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useTracker: 0
-  leftController: {fileID: 0}
-  rightController: {fileID: 0}
+  leftController: {fileID: 5372282750719009623}
+  rightController: {fileID: 7025447228468740085}
   runClip: {fileID: 8300000, guid: 375c6ec8091e214419da43c303c934c8, type: 3}
   hitClip: {fileID: 8300000, guid: 2ee0d6d8a2f848d4ba04c74702f9b28b, type: 3}
   calibrationSmoothness: 0.01
   calibrationDuration: 4
-  hitParticle: {fileID: 0}
-  LeftEngineParticleOne: {fileID: 0}
-  LeftEngineParticleTwo: {fileID: 0}
-  RightEngineParticleOne: {fileID: 0}
-  RightEngineParticleTwo: {fileID: 0}
+  hitParticle: {fileID: 3481069721865746744}
+  LeftEngineParticleOne: {fileID: 3481069722030900499}
+  LeftEngineParticleTwo: {fileID: 3481069721811464500}
+  RightEngineParticleOne: {fileID: 3481069721988369790}
+  RightEngineParticleTwo: {fileID: 3481069721397165306}
   verticalForceMulti: 7.5
   horizontalForceMulti: 7.5
   maxDirSpeed: 100

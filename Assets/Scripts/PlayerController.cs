@@ -19,6 +19,7 @@ namespace Team73.Round5.Racing
         [SerializeField] private AudioClip hitClip;
         [SerializeField] private float calibrationSmoothness = 0.01f;
         [SerializeField] private float calibrationDuration = 4.0f;
+        [SerializeField] private Transform spinPoint;
         
         [Header("VFX")]
         [SerializeField] private ParticleSystem hitParticle;
@@ -206,6 +207,8 @@ namespace Team73.Round5.Racing
                 horizontalForce = Input.GetAxisRaw("Horizontal") * horizontalForceMulti;
                 moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
             }
+
+
             xThrow = horizontalForce;
             yThrow = verticalForce;
         }
@@ -271,7 +274,16 @@ namespace Team73.Round5.Racing
         {
             float yaw = xThrow * controlYawFactor;
             float pitch = yThrow * controlPitchFactor;
-            transform.localRotation = Quaternion.Euler(-pitch,yaw, 0);
+            if (pitch != 0f)
+            {
+                transform.localRotation = Quaternion.Euler(-pitch,0, 0);
+            }
+            else
+            {
+                transform.localRotation = Quaternion.Euler(0,0, 0);
+            }
+            // transform.RotateAround(spinPoint.position, Vector3.right, -pitch * rotationMulti);
+            transform.RotateAround(spinPoint.position, Vector3.up, yaw * rotationMulti);
         }
 
         private void ControlDrag()

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2694562518666822327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8074515665914648291}
+  m_Layer: 0
+  m_Name: MechaObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8074515665914648291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694562518666822327}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3260131211979647640}
+  m_Father: {fileID: 3260131211961438474}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3260131209953552860
 GameObject:
   m_ObjectHideFlags: 0
@@ -24724,7 +24755,7 @@ Transform:
   m_Children:
   - {fileID: 3260131210391345508}
   - {fileID: 3260131211165385016}
-  - {fileID: 3260131211979647640}
+  - {fileID: 8074515665914648291}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24847,8 +24878,8 @@ Transform:
   - {fileID: 3260131211113722537}
   - {fileID: 3260131211718546460}
   - {fileID: 3260131211445305470}
-  m_Father: {fileID: 3260131211961438474}
-  m_RootOrder: 2
+  m_Father: {fileID: 8074515665914648291}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3260131211979647635
 MeshFilter:
@@ -24947,6 +24978,7 @@ MonoBehaviour:
   hitClip: {fileID: 8300000, guid: 2ee0d6d8a2f848d4ba04c74702f9b28b, type: 3}
   calibrationSmoothness: 0.01
   calibrationDuration: 4
+  rotateBody: {fileID: 0}
   hitParticle: {fileID: 3260131211730709756}
   LeftEngineParticleOne: {fileID: 3260131211718546462}
   LeftEngineParticleTwo: {fileID: 3260131211445305464}

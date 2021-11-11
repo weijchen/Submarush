@@ -26,7 +26,7 @@ namespace Team73.Round5.Racing
 
         private void Awake()
         {
-            transform.SetParent(GameObject.Find("Canvas").GetComponent<Transform>(), false);
+            transform.SetParent(GameObject.Find("MainCanvas").GetComponent<Transform>(), false);
         }
 
         private void Update()
@@ -34,28 +34,27 @@ namespace Team73.Round5.Racing
             if (playerManager == null)
             {
                 Destroy(gameObject);
-                return;
             }
         }
 
-        private void LateUpdate()
-        {
-            if (playerManager != null)
-            {
-                transform.position = Camera.main.WorldToScreenPoint(playerManager.transform.position) + screenOffset;
-            }
-        }
-
-        public void SetTarget(PlayerManager _target)
-        {
-            if (_target == null)
-            {
-                Debug.LogError("Passed PlayerManager Instance is null", this);
-                return;
-            }
-
-            playerManager = _target;
-        }
+        // private void LateUpdate()
+        // {
+        //     if (playerManager != null)
+        //     {
+        //         transform.position = Camera.main.WorldToScreenPoint(playerManager.transform.position) + screenOffset;
+        //     }
+        // }
+        //
+        // public void SetTarget(PlayerManager _target)
+        // {
+        //     if (_target == null)
+        //     {
+        //         Debug.LogError("Passed PlayerManager Instance is null", this);
+        //         return;
+        //     }
+        //
+        //     playerManager = _target;
+        // }
     }
 }
 

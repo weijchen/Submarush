@@ -2,18 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using Valve.VR;
 
 namespace Team73.Round5.Racing
 {
+    public enum PlayerOpt : int
+    {
+        P1 = 1, 
+        P2 = 2,
+        P3 = 3, 
+        P4 = 4
+    }
+    
     public class PlayerController : MonoBehaviour
     {
         [Header("General")]
-        [SerializeField] private GameObject leftController;
-        [SerializeField] private GameObject rightController;
+        [SerializeField] private GameObject controller;
         [SerializeField] private Transform spinPoint;
-        
+        [SerializeField] private PlayerOpt playerOpt = PlayerOpt.P1;
+
         [Header("VFX")]
         [SerializeField] private ParticleSystem hitParticle;
         [SerializeField] private ParticleSystem LeftEngineParticleOne;
@@ -25,8 +34,7 @@ namespace Team73.Round5.Racing
         
         private Rigidbody _rigidbody;
         private AudioSource _audioSource;
-        private Vector3 trackerLPosition;
-        private Vector3 trackerRPosition;
+        private Vector3 trackerPosition;
         private float initTrackLPosX;
         private float initTrackLPosY;
         private float initTrackLPosZ;
@@ -43,9 +51,19 @@ namespace Team73.Round5.Racing
             _rigidbody = GetComponent<Rigidbody>();
             _audioSource = GetComponent<AudioSource>();
 
-            trackerLPosition = leftController.transform.position;
-            trackerRPosition = rightController.transform.position;
-            Calibration();
+            if (GameManager.Instance.useTracker)
+            {
+                trackerPosition = controller.transform.position;
+                Calibration();
+            }
+            else
+            {
+                isCalibrating = false;
+                LeftEngineParticleOne.Play();
+                LeftEngineParticleTwo.Play();
+                RightEngineParticleOne.Play();
+                RightEngineParticleTwo.Play();
+            }
         }
 
         void Calibration()
@@ -66,12 +84,9 @@ namespace Team73.Round5.Racing
             while (progress <= duration)
             {
                 progress += smoothness;
-                xListL.Add(trackerLPosition.x);
-                yListL.Add(trackerLPosition.y);
-                zListL.Add(trackerLPosition.z);
-                xListR.Add(trackerRPosition.x);
-                yListR.Add(trackerRPosition.y);
-                zListR.Add(trackerRPosition.z);
+                xListL.Add(trackerPosition.x);
+                yListL.Add(trackerPosition.y);
+                zListL.Add(trackerPosition.z);
                 if (progress <= 1)
                 {
                     calibrateString = "Ready";
@@ -115,8 +130,7 @@ namespace Team73.Round5.Racing
 
         void GetTrackerTransform()
         {
-            trackerLPosition = leftController.transform.position;
-            trackerRPosition = rightController.transform.position;
+            trackerPosition = controller.transform.position;
         }
         
         private void FixedUpdate()
@@ -137,16 +151,15 @@ namespace Team73.Round5.Racing
             
             if (GameManager.Instance.useTracker)
             {
-                float leftForwardForce = trackerLPosition.z - initTrackLPosZ;
-                float rightForwardForce = trackerRPosition.z - initTrackRPosZ;
+                horizontalForce = trackerPosition.z - initTrackLPosZ;
                 
-                float horizontalDiff = leftForwardForce - rightForwardForce;
                 //Debug.LogFormat("Horizontal Force: {0}", horizontalDiff);
-                if (horizontalDiff >= GameManager.Instance.horizontalThreshold)
+                
+                if (horizontalForce >= GameManager.Instance.horizontalThreshold)
                 {
                     horizontalForce = -GameManager.Instance.horizontalForceMulti;
                 }
-                else if (horizontalDiff <= -GameManager.Instance.horizontalThreshold)
+                else if (horizontalForce <= -GameManager.Instance.horizontalThreshold)
                 {
                     horizontalForce = GameManager.Instance.horizontalForceMulti;
                 } 
@@ -155,16 +168,14 @@ namespace Team73.Round5.Racing
                     horizontalForce = 0f;
                 }
 
-                float leftVertForce = trackerLPosition.y - initTrackLPosY;
-                float rightVertForce = trackerRPosition.y - initTrackRPosY;
-                float vertForce = (leftVertForce + rightVertForce) / 2;
+                verticalForce = trackerPosition.y - initTrackLPosY;
                 //Debug.LogFormat("Vertical Force: {0}", vertForce);
 
-                if (vertForce >= GameManager.Instance.verticalThreshold)
+                if (verticalForce >= GameManager.Instance.verticalThreshold)
                 {
                     verticalForce = GameManager.Instance.verticalForceMulti;
                 } 
-                else if (vertForce <= -GameManager.Instance.verticalThreshold)
+                else if (verticalForce <= -GameManager.Instance.verticalThreshold)
                 {
                     verticalForce = -GameManager.Instance.verticalForceMulti;
                 } 
@@ -172,15 +183,37 @@ namespace Team73.Round5.Racing
                 {
                     verticalForce = 0f;
                 }
+                
                 moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
             }
             else
             {
-                verticalForce = Input.GetAxisRaw("Vertical") * GameManager.Instance.verticalForceMulti;
-                horizontalForce = Input.GetAxisRaw("Horizontal") * GameManager.Instance.horizontalForceMulti;
-                moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+                if (playerOpt == PlayerOpt.P1)
+                {
+                    verticalForce = Input.GetAxisRaw("Vertical") * GameManager.Instance.verticalForceMulti;
+                    horizontalForce = Input.GetAxisRaw("Horizontal") * GameManager.Instance.horizontalForceMulti;
+                    moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+                } 
+                // else if (playerOpt == PlayerOpt.P2)
+                else
+                {
+                    verticalForce = Input.GetAxisRaw("Vertical_2") * GameManager.Instance.verticalForceMulti;
+                    horizontalForce = Input.GetAxisRaw("Horizontal_2") * GameManager.Instance.horizontalForceMulti;
+                    moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+                }
+                // else if (playerOpt == PlayerOpt.P3)
+                // {
+                //     verticalForce = Input.GetAxisRaw("Vertical") * GameManager.Instance.verticalForceMulti;
+                //     horizontalForce = Input.GetAxisRaw("Horizontal") * GameManager.Instance.horizontalForceMulti;
+                //     moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+                // }
+                // else if (playerOpt == PlayerOpt.P4)
+                // {
+                //     verticalForce = Input.GetAxisRaw("Vertical") * GameManager.Instance.verticalForceMulti;
+                //     horizontalForce = Input.GetAxisRaw("Horizontal") * GameManager.Instance.horizontalForceMulti;
+                //     moveInputVal = verticalForce * transform.up + horizontalForce * transform.right;
+                // }
             }
-
 
             xThrow = horizontalForce;
             yThrow = verticalForce;
@@ -190,30 +223,22 @@ namespace Team73.Round5.Racing
         {
             if (GameManager.Instance.useTracker)
             {
-                float leftForwardForce = trackerLPosition.z - initTrackLPosZ;
-                float rightForwardForce = trackerRPosition.z - initTrackRPosZ;
-                float forwardForce = (leftForwardForce + rightForwardForce) / 2;
+                bool hasForwardForce = Input.GetKey(KeyCode.LeftShift);
+                bool hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
                 /*
                 Debug.LogFormat("(L) Forward force: {0}", leftForwardForce);
                 Debug.LogFormat("(R) Forward force: {0}", rightForwardForce);
                 Debug.LogFormat("(M) Forward force: {0}", forwardForce);
                 */
 
-                if (forwardForce <= -GameManager.Instance.forwardThreshold)
+                if (hasForwardForce)
                 {
                     moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
                 }
-                else
+                if (hasBackwardForce)
                 {
-                    if (leftForwardForce <= -GameManager.Instance.forwardThreshold || rightForwardForce <= -GameManager.Instance.forwardThreshold)
-                    {
-                        moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti / 2;
-                    } 
-                    else
-                    {
-                        moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
-                    }
-
+                    moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
+                
                     // Brake
                     if (moveInputVal.z <= 0)
                     {
@@ -223,8 +248,19 @@ namespace Team73.Round5.Racing
             }
             else
             {
-                bool hasForwardForce = Input.GetKey(KeyCode.LeftShift);
-                bool hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
+                bool hasForwardForce;
+                bool hasBackwardForce;
+                if (playerOpt == PlayerOpt.P1)
+                {
+                    hasForwardForce = Input.GetKey(KeyCode.LeftShift);
+                    hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
+                }
+                else
+                {
+                    hasForwardForce = Input.GetKey(KeyCode.RightShift);
+                    hasBackwardForce = Input.GetKey(KeyCode.RightControl);
+                }
+                    
                 if (hasForwardForce)
                 {
                     moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;

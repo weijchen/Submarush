@@ -6,6 +6,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+    
     [SerializeField] private TMP_Text calibrateText;
 
     private void Awake()

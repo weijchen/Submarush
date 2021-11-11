@@ -2,11 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
-using Photon.Pun;
 using UnityEngine;
 using Valve.VR;
-using TMPro;
 
 namespace Team73.Round5.Racing
 {
@@ -28,7 +25,6 @@ namespace Team73.Round5.Racing
         
         private Rigidbody _rigidbody;
         private AudioSource _audioSource;
-        private PhotonView _photonView;
         private Vector3 trackerLPosition;
         private Vector3 trackerRPosition;
         private float initTrackLPosX;
@@ -46,7 +42,6 @@ namespace Team73.Round5.Racing
         {
             _rigidbody = GetComponent<Rigidbody>();
             _audioSource = GetComponent<AudioSource>();
-            _photonView = GetComponent<PhotonView>();
 
             trackerLPosition = leftController.transform.position;
             trackerRPosition = rightController.transform.position;
@@ -108,16 +103,13 @@ namespace Team73.Round5.Racing
 
         void Update()
         {
-            if (_photonView.IsMine)
+            GetTrackerTransform();
+            if (!isCalibrating)
             {
-                GetTrackerTransform();
-                if (!isCalibrating)
-                {
-                    AddDirectionalForce();
-                    AddForwardForce();
-                    ProcessRotation();
-                    ControlDrag();
-                }
+                AddDirectionalForce();
+                AddForwardForce();
+                ProcessRotation();
+                ControlDrag();
             }
         }
 

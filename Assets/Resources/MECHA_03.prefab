@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 82375997887403843}
   m_Layer: 0
-  m_Name: Main_02
+  m_Name: Main_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14691,7 +14691,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3a4a3c228daf08a41bc5d59795a70ba0, type: 2}
+  - {fileID: 2100000, guid: e0e39432818081647bb87462351a06bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24951,7 +24951,7 @@ GameObject:
   - component: {fileID: 8226475592837915744}
   - component: {fileID: 8226475592837915751}
   m_Layer: 0
-  m_Name: MECHA_02
+  m_Name: MECHA_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24964,7 +24964,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8226475592837915750}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

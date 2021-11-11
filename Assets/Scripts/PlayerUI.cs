@@ -55,10 +55,6 @@ namespace Team73.Round5.Racing
             }
 
             playerManager = _target;
-            if (playerNameText != null)
-            {
-                playerNameText.text = playerManager.GetPhotonView().Owner.NickName;
-            }
         }
     }
 }

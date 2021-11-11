@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-// using UnityEngine.UI;
-using Photon.Pun;
 
 namespace Team73.Round5.Racing
 {
@@ -24,8 +22,6 @@ namespace Team73.Round5.Racing
                     _inputField.text = defaultName;
                 }
             }
-
-            PhotonNetwork.NickName = defaultName;
         }
 
         public void SetPlayerName()
@@ -36,8 +32,6 @@ namespace Team73.Round5.Racing
                 Debug.LogError("Player Name is null or empty");
                 return;
             }
-
-            PhotonNetwork.NickName = value;
             PlayerPrefs.SetString(playerNamePrefKey, value);
         }
     }

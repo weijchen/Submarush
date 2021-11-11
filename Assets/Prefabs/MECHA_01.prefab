@@ -5554,6 +5554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 4544687334025541981}
   spinPoint: {fileID: 5069571759087013068}
+  playerOpt: 1
   hitParticle: {fileID: 7738570334177091105}
   LeftEngineParticleOne: {fileID: 7738570334109624003}
   LeftEngineParticleTwo: {fileID: 7738570334361858725}

@@ -14631,7 +14631,6 @@ GameObject:
   - component: {fileID: 6635079537195903793}
   - component: {fileID: 6635079537195903792}
   - component: {fileID: 6635079537195903799}
-  - component: {fileID: 6635079537195903803}
   - component: {fileID: 6635079537195903802}
   - component: {fileID: 6635079537195903801}
   m_Layer: 0
@@ -14755,24 +14754,12 @@ MonoBehaviour:
   controller: {fileID: 8226475592395795458}
   spinPoint: {fileID: 8154569490371674033}
   playerOpt: 2
+  uIManager: {fileID: 0}
   hitParticle: {fileID: 6635079536816745820}
   LeftEngineParticleOne: {fileID: 6635079536936900030}
   LeftEngineParticleTwo: {fileID: 6635079537739629016}
   RightEngineParticleOne: {fileID: 6635079536308301140}
   RightEngineParticleTwo: {fileID: 6635079537542263563}
---- !u!114 &6635079537195903803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6635079537195903807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 582c99cc98f696b46894a07316ee55d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerUIPrefab: {fileID: 2410865226963964225, guid: e043da3576b21b049bf149623935a688, type: 3}
 --- !u!82 &6635079537195903802
 AudioSource:
   m_ObjectHideFlags: 0
@@ -24793,7 +24780,7 @@ GameObject:
   - component: {fileID: 8226475592395795468}
   - component: {fileID: 8226475592395795459}
   m_Layer: 0
-  m_Name: Controller (left)
+  m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

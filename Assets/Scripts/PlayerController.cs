@@ -22,6 +22,7 @@ namespace Team73.Round5.Racing
         [SerializeField] private GameObject controller;
         [SerializeField] private Transform spinPoint;
         [SerializeField] private PlayerOpt playerOpt = PlayerOpt.P1;
+        [SerializeField] private UIManager uIManager;
 
         [Header("VFX")]
         [SerializeField] private ParticleSystem hitParticle;
@@ -75,18 +76,15 @@ namespace Team73.Round5.Racing
         {
             float progress = 0f;
             string calibrateString;
-            List<float> xListL = new List<float>();
-            List<float> yListL = new List<float>();
-            List<float> zListL = new List<float>();
-            List<float> xListR = new List<float>();
-            List<float> yListR = new List<float>();
-            List<float> zListR = new List<float>();
+            List<float> xList = new List<float>();
+            List<float> yList = new List<float>();
+            List<float> zList = new List<float>();
             while (progress <= duration)
             {
                 progress += smoothness;
-                xListL.Add(trackerPosition.x);
-                yListL.Add(trackerPosition.y);
-                zListL.Add(trackerPosition.z);
+                xList.Add(trackerPosition.x);
+                yList.Add(trackerPosition.y);
+                zList.Add(trackerPosition.z);
                 if (progress <= 1)
                 {
                     calibrateString = "Ready";
@@ -99,17 +97,14 @@ namespace Team73.Round5.Racing
                 {
                     calibrateString = Mathf.RoundToInt(duration - progress).ToString();
                 }
-                UIManager.Instance.SetCalibrateWord(calibrateString);
+                uIManager.SetCalibrateWord(calibrateString);
                 yield return new WaitForSeconds(smoothness);
             }
-            initTrackLPosX = xListL.Average();
-            initTrackLPosY = yListL.Average();
-            initTrackLPosZ = zListL.Average();
-            initTrackRPosX = xListR.Average();
-            initTrackRPosY = yListR.Average();
-            initTrackRPosZ = zListR.Average();
+            initTrackLPosX = xList.Average();
+            initTrackLPosY = yList.Average();
+            initTrackLPosZ = zList.Average();
             isCalibrating = false;
-            UIManager.Instance.FinishCalibrate();
+            uIManager.FinishCalibrate();
             LeftEngineParticleOne.Play();
             LeftEngineParticleTwo.Play();
             RightEngineParticleOne.Play();
@@ -152,7 +147,6 @@ namespace Team73.Round5.Racing
             if (GameManager.Instance.useTracker)
             {
                 horizontalForce = trackerPosition.z - initTrackLPosZ;
-                
                 //Debug.LogFormat("Horizontal Force: {0}", horizontalDiff);
                 
                 if (horizontalForce >= GameManager.Instance.horizontalThreshold)
@@ -221,10 +215,18 @@ namespace Team73.Round5.Racing
         
         private void AddForwardForce()
         {
+            bool hasForwardForce;
+            //Debug.Log(Input.GetKey(KeyCode.A));
+            //Debug.Log(Input.GetKey(KeyCode.L));
             if (GameManager.Instance.useTracker)
             {
-                bool hasForwardForce = Input.GetKey(KeyCode.LeftShift);
-                bool hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
+                if (playerOpt == PlayerOpt.P1)
+                {
+                    hasForwardForce = Input.GetKey(KeyCode.A);
+                } else
+                {
+                    hasForwardForce = Input.GetKey(KeyCode.L);
+                }
                 /*
                 Debug.LogFormat("(L) Forward force: {0}", leftForwardForce);
                 Debug.LogFormat("(R) Forward force: {0}", rightForwardForce);
@@ -235,6 +237,7 @@ namespace Team73.Round5.Racing
                 {
                     moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
                 }
+                /*
                 if (hasBackwardForce)
                 {
                     moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
@@ -245,26 +248,28 @@ namespace Team73.Round5.Racing
                         moveInputVal.z = 0;
                     }
                 }
+                */
             }
             else
             {
-                bool hasForwardForce;
-                bool hasBackwardForce;
+                //bool hasForwardForce;
+                //bool hasBackwardForce;
                 if (playerOpt == PlayerOpt.P1)
                 {
                     hasForwardForce = Input.GetKey(KeyCode.LeftShift);
-                    hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
+                    //hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
                 }
                 else
                 {
                     hasForwardForce = Input.GetKey(KeyCode.RightShift);
-                    hasBackwardForce = Input.GetKey(KeyCode.RightControl);
+                    //hasBackwardForce = Input.GetKey(KeyCode.RightControl);
                 }
                     
                 if (hasForwardForce)
                 {
                     moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
                 }
+                /*
                 if (hasBackwardForce)
                 {
                     moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
@@ -275,6 +280,7 @@ namespace Team73.Round5.Racing
                         moveInputVal.z = 0;
                     }
                 }
+                */
             }
         }
         

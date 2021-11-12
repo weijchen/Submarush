@@ -5,21 +5,7 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
-    
     [SerializeField] private TMP_Text calibrateText;
-
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            DestroyImmediate(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
 
     public void SetCalibrateWord(string newText)
     {

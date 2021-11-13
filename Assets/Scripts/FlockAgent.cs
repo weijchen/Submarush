@@ -1,18 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine.Utility;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class FlockAgent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Collider agentCollider;
+    public Collider AgentCollider
     {
-        
+        get { return agentCollider; }
+    }
+    
+
+    private void Start()
+    {
+        agentCollider = GetComponent<Collider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Move(Vector3 velocity)
     {
-        
+        transform.up = velocity;
+        transform.position += velocity * Time.deltaTime;
     }
 }

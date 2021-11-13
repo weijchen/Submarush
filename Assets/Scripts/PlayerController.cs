@@ -23,6 +23,7 @@ namespace Team73.Round5.Racing
         [SerializeField] private Transform spinPoint;
         [SerializeField] private PlayerOpt playerOpt = PlayerOpt.P1;
         [SerializeField] private UIManager uIManager;
+        [SerializeField] private float punishTime = 2.0f;
 
         [Header("VFX")]
         [SerializeField] private ParticleSystem hitParticle;
@@ -46,6 +47,8 @@ namespace Team73.Round5.Racing
         private float xThrow;
         private float yThrow;
         private bool isCalibrating = true;
+        private bool isPunished = false;
+        private float timer = 0;
 
         private void Start()
         {
@@ -120,6 +123,19 @@ namespace Team73.Round5.Racing
                 AddForwardForce();
                 ProcessRotation();
                 ControlDrag();
+            }
+
+            if (isPunished)
+            {
+                if (timer <= punishTime)
+                {
+                    timer += Time.deltaTime;
+                }
+                else
+                {
+                    timer = 0f;
+                    isPunished = false;
+                }
             }
         }
 
@@ -216,8 +232,6 @@ namespace Team73.Round5.Racing
         private void AddForwardForce()
         {
             bool hasForwardForce;
-            //Debug.Log(Input.GetKey(KeyCode.A));
-            //Debug.Log(Input.GetKey(KeyCode.L));
             if (GameManager.Instance.useTracker)
             {
                 if (playerOpt == PlayerOpt.P1)
@@ -235,52 +249,38 @@ namespace Team73.Round5.Racing
 
                 if (hasForwardForce)
                 {
-                    moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
-                }
-                /*
-                if (hasBackwardForce)
-                {
-                    moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
-                
-                    // Brake
-                    if (moveInputVal.z <= 0)
+                    if (isPunished)
                     {
-                        moveInputVal.z = 0;
+                        moveInputVal += transform.forward * (GameManager.Instance.forwardForceMulti / 2);
+                    }
+                    else
+                    {
+                        moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
                     }
                 }
-                */
             }
             else
             {
-                //bool hasForwardForce;
-                //bool hasBackwardForce;
                 if (playerOpt == PlayerOpt.P1)
                 {
                     hasForwardForce = Input.GetKey(KeyCode.LeftShift);
-                    //hasBackwardForce = Input.GetKey(KeyCode.LeftControl);
                 }
                 else
                 {
                     hasForwardForce = Input.GetKey(KeyCode.RightShift);
-                    //hasBackwardForce = Input.GetKey(KeyCode.RightControl);
                 }
                     
                 if (hasForwardForce)
                 {
-                    moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
-                }
-                /*
-                if (hasBackwardForce)
-                {
-                    moveInputVal += transform.forward * -GameManager.Instance.forwardForceMulti;
-                
-                    // Brake
-                    if (moveInputVal.z <= 0)
+                    if (isPunished)
                     {
-                        moveInputVal.z = 0;
+                        moveInputVal += transform.forward * (GameManager.Instance.forwardForceMulti / 2);
+                    }
+                    else
+                    {
+                        moveInputVal += transform.forward * GameManager.Instance.forwardForceMulti;
                     }
                 }
-                */
             }
         }
         
@@ -303,6 +303,11 @@ namespace Team73.Round5.Racing
                 SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
                 hitParticle.Play();
             }
+        }
+
+        public void Punish()
+        {
+            isPunished = true;
         }
     }
 }

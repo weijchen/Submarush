@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3864251432544360777}
-  - component: {fileID: 3864251432544360778}
   - component: {fileID: 3864251432544360779}
+  - component: {fileID: 669447100}
   m_Layer: 0
   m_Name: Sound Manager
   m_TagString: Untagged
@@ -32,21 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3864251432544360778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3864251432544360772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbf36fb3e00cbc54d91c853fb883ad6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmList:
-  - {fileID: 8300000, guid: 5af7e218468ee4941bb2027f6d545344, type: 3}
-  sfxList: []
 --- !u!82 &3864251432544360779
 AudioSource:
   m_ObjectHideFlags: 0
@@ -143,3 +128,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &669447100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3864251432544360772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9a5c254c418bd64b89a851012876b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmList:
+  - {fileID: 8300000, guid: 1fdffb591bb23cd44a14c99c726dfab7, type: 3}
+  - {fileID: 8300000, guid: 5af7e218468ee4941bb2027f6d545344, type: 3}
+  sfxList:
+  - {fileID: 8300000, guid: 375c6ec8091e214419da43c303c934c8, type: 3}

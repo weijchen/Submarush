@@ -2,13 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Team73.Round5.Racing
 {
-    public enum SFXIndex : int
-    {
-        
-    }
     
     public class SoundManager : MonoBehaviour
     {
@@ -16,7 +13,10 @@ namespace Team73.Round5.Racing
 
         [SerializeField] private AudioClip[] bgmList;
         [SerializeField] private AudioClip[] sfxList;
-
+        
+        private int curScene = 0;
+        private bool isBGMPlaying = false;
+        
         private AudioSource _audioSource;
 
         private void Awake()
@@ -42,6 +42,11 @@ namespace Team73.Round5.Racing
         {
             _audioSource.clip = bgmList[index];
             _audioSource.Play();
+        }
+
+        public void StopPlay()
+        {
+            _audioSource.Stop();
         }
 
         public void PlaySFX(AudioClip audioClip, float volume = 1.0f)

@@ -21,7 +21,7 @@ namespace Team73.Round5.Racing
         [Header("General")]
         [SerializeField] private GameObject controller;
         [SerializeField] private Transform spinPoint;
-        [SerializeField] private PlayerOpt playerOpt = PlayerOpt.P1;
+        [SerializeField] public PlayerOpt playerOpt = PlayerOpt.P1;
         [SerializeField] private UIManager uIManager;
         [SerializeField] private float punishTime = 2.0f;
 

@@ -18,5 +18,9 @@ public class ProgressBar : MonoBehaviour
     public void EnableProgressOnGrid(int gridIndex)
     {
         progressGrid[gridIndex].SetActive(true);
+        if (gridIndex > 0)
+        {
+            progressGrid[gridIndex-1].transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }

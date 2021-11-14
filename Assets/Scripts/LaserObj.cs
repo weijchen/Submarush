@@ -10,6 +10,7 @@ public class LaserObj : MonoBehaviour
     [SerializeField] private float waitForLaser = 1.0f;
     [SerializeField] private float lastForLaserMax = 4.0f;
     [SerializeField] private int numberOfLaserMax = 6;
+    [SerializeField] private ParticleSystem[] laserSparks;
 
     private int numberOfLaser = 0;
     
@@ -23,12 +24,20 @@ public class LaserObj : MonoBehaviour
         if (numberOfLaser == numberOfLaserMax)
         {
             laserBeam.SetActive(false);
+            foreach (ParticleSystem laserSpark in laserSparks)
+            {
+                laserSpark.Stop();
+            }
         }
     }
 
     private void LaunchLaser()
     {
         laserBeam.SetActive(true);
+        foreach (ParticleSystem laserSpark in laserSparks)
+        {
+            laserSpark.Play();
+        }
         StartCoroutine(StartLaunchLaser());
     }
 

@@ -2,9 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
-using Valve.VR;
 
 namespace Team73.Round5.Racing
 {
@@ -27,10 +25,19 @@ namespace Team73.Round5.Racing
 
         [Header("VFX")]
         [SerializeField] private ParticleSystem hitParticle;
-        [SerializeField] private ParticleSystem LeftEngineParticleOne;
-        [SerializeField] private ParticleSystem LeftEngineParticleTwo;
-        [SerializeField] private ParticleSystem RightEngineParticleOne;
-        [SerializeField] private ParticleSystem RightEngineParticleTwo;
+        [SerializeField] private ParticleSystem LEngineParticleOneBlast;
+        [SerializeField] private ParticleSystem LEngineParticleOneBubble;
+        [SerializeField] private ParticleSystem LEngineParticleTwoBlast;
+        [SerializeField] private ParticleSystem LEngineParticleTwoBubble;
+        [SerializeField] private ParticleSystem REngineParticleOneBlast;
+        [SerializeField] private ParticleSystem REngineParticleOneBubble;
+        [SerializeField] private ParticleSystem REngineParticleTwoBlast;
+        [SerializeField] private ParticleSystem REngineParticleTwoBubble;
+        [SerializeField] private ParticleSystem laserImpactedVFX;
+        [SerializeField] private ParticleSystem orbCollectVFX;
+        [SerializeField] private ParticleSystem[] explositonVFX;
+        [SerializeField] private GameObject shield;
+        [SerializeField] private ParticleSystem shieldBreakVFX;
 
         [Header("Info Related")] 
         [SerializeField] private ProgressBar _progressBarSelf;
@@ -69,6 +76,8 @@ namespace Team73.Round5.Racing
                 trackerPosition = controller.transform.position;
             }
             
+            shield.SetActive(false);
+            
             Calibration();
         }
         
@@ -96,6 +105,15 @@ namespace Team73.Round5.Racing
                 {
                     timer = 0f;
                     isPunished = false;
+                    LEngineParticleOneBlast.Play();
+                    LEngineParticleOneBubble.Play();
+                    LEngineParticleTwoBlast.Play();
+                    LEngineParticleTwoBubble.Play();
+                    REngineParticleOneBlast.Play();
+                    REngineParticleOneBubble.Play();
+                    REngineParticleTwoBlast.Play();
+                    REngineParticleTwoBubble.Play();
+                    GetComponent<MeshRenderer>().material.color = Color.white;
                 }
             }
         }
@@ -156,10 +174,14 @@ namespace Team73.Round5.Racing
                 initTrackLPosZ = zList.Average();
             }
             
-            LeftEngineParticleOne.Play();
-            LeftEngineParticleTwo.Play();
-            RightEngineParticleOne.Play();
-            RightEngineParticleTwo.Play();
+            LEngineParticleOneBlast.Play();
+            LEngineParticleOneBubble.Play();
+            LEngineParticleTwoBlast.Play();
+            LEngineParticleTwoBubble.Play();
+            REngineParticleOneBlast.Play();
+            REngineParticleOneBubble.Play();
+            REngineParticleTwoBlast.Play();
+            REngineParticleTwoBubble.Play();
             isCalibrating = false;
             uIManager.FinishCalibrate();
         }
@@ -281,7 +303,7 @@ namespace Team73.Round5.Racing
                 }
                 else
                 {
-                    hasForwardForce = Input.GetKey(KeyCode.RightShift);
+                    hasForwardForce = Input.GetKey(KeyCode.RightControl);
                 }
                     
                 if (hasForwardForce)
@@ -323,6 +345,16 @@ namespace Team73.Round5.Racing
         {
             isPunished = true;
             SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
+            LEngineParticleOneBlast.Stop();
+            LEngineParticleOneBubble.Stop();
+            LEngineParticleTwoBlast.Stop();
+            LEngineParticleTwoBubble.Stop();
+            REngineParticleOneBlast.Stop();
+            REngineParticleOneBubble.Stop();
+            REngineParticleTwoBlast.Stop();
+            REngineParticleTwoBubble.Stop();
+            laserImpactedVFX.Play();
+            GetComponent<MeshRenderer>().material.color = Color.red;
         }
 
         public void CollectEnergy()
@@ -331,6 +363,17 @@ namespace Team73.Round5.Racing
             _energyBarOther.EnableEnergyOnGrid(energyCollected);
             energyCollected += 1;
             SoundManager.Instance.PlayCollectSFX(energyCollected-1);
+            if (energyCollected == GameManager.Instance.energyToPass)
+            {
+                shield.SetActive(true);
+            }
+            orbCollectVFX.Play();
+        }
+
+        public void BreakShield()
+        {
+            shieldBreakVFX.Play();
+            shield.SetActive(false);
         }
 
         public int GetCollectEnergy()
@@ -347,9 +390,21 @@ namespace Team73.Round5.Racing
 
         public void DestroySelf()
         {
+            foreach (ParticleSystem system in explositonVFX)
+            {
+                system.Play();
+            }
             SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
             GetComponent<Rigidbody>().useGravity = true;
             canMove = false;
+            LEngineParticleOneBlast.Stop();
+            LEngineParticleOneBubble.Stop();
+            LEngineParticleTwoBlast.Stop();
+            LEngineParticleTwoBubble.Stop();
+            REngineParticleOneBlast.Stop();
+            REngineParticleOneBubble.Stop();
+            REngineParticleTwoBlast.Stop();
+            REngineParticleTwoBubble.Stop();
         }
     }
 }

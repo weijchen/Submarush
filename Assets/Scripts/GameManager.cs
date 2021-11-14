@@ -21,6 +21,7 @@ namespace Team73.Round5.Racing
         [SerializeField] public AudioClip hitClip;
         [SerializeField] public float calibrationSmoothness = 0.01f;
         [SerializeField] public float calibrationDuration = 4.0f;
+        [SerializeField] public int energyToPass = 10;
         
         [Header("Movement")]
         [SerializeField] public float verticalForceMulti = 10.0f;

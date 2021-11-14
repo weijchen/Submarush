@@ -1,24 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Team73.Round5.Racing;
 using UnityEngine;
 
-public class DoorBtn : MonoBehaviour
+namespace Team73.Round5.Racing
 {
-    [SerializeField] private DoorObj _doorObj;
-
-    private void Start()
+    public class DoorBtn : MonoBehaviour
     {
-        _doorObj.OpenDoor();
-        gameObject.SetActive(false);
-    }
+        [SerializeField] private DoorObj _doorObj;
+        [SerializeField] private GameObject doorSymbol;
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.transform.CompareTag("Player"))
+        private void OnCollisionEnter(Collision other)
         {
-            _doorObj.OpenDoor();
-            gameObject.SetActive(false);
+            if (other.transform.CompareTag("Player"))
+            {
+                _doorObj.OpenDoor();
+                SoundManager.Instance.PlaySFXByIndex(SFXList.Door);
+                gameObject.SetActive(false);
+                doorSymbol.SetActive(false);
+            }
         }
     }
 }

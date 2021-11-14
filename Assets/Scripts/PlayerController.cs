@@ -49,6 +49,8 @@ namespace Team73.Round5.Racing
         private bool isCalibrating = true;
         private bool isPunished = false;
         private float timer = 0;
+        private int energyCollected = 0;
+        private bool canMove = true;
 
         private void Start()
         {
@@ -119,10 +121,13 @@ namespace Team73.Round5.Racing
             GetTrackerTransform();
             if (!isCalibrating)
             {
-                AddDirectionalForce();
-                AddForwardForce();
-                ProcessRotation();
-                ControlDrag();
+                if (canMove)
+                {
+                    AddDirectionalForce();
+                    AddForwardForce();
+                    ProcessRotation();
+                    ControlDrag();    
+                }
             }
 
             if (isPunished)
@@ -309,6 +314,24 @@ namespace Team73.Round5.Racing
         {
             isPunished = true;
             SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
+        }
+
+        public void CollectEnergy()
+        {
+            energyCollected += 1;
+            SoundManager.Instance.PlayCollectSFX(energyCollected-1);
+        }
+
+        public int GetCollectEnergy()
+        {
+            return energyCollected;
+        }
+
+        public void DestroySelf()
+        {
+            SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
+            GetComponent<Rigidbody>().useGravity = true;
+            canMove = false;
         }
     }
 }

@@ -145,3 +145,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5af7e218468ee4941bb2027f6d545344, type: 3}
   sfxList:
   - {fileID: 8300000, guid: 375c6ec8091e214419da43c303c934c8, type: 3}
+  - {fileID: 8300000, guid: 750a469a532de5f438af32b019005a72, type: 3}
+  collectList:
+  - {fileID: 8300000, guid: 2bd75d0b89637ae488bc3987afdb8e1a, type: 3}
+  - {fileID: 8300000, guid: 82e3bea70263e1d448ea7849d55a9442, type: 3}
+  - {fileID: 8300000, guid: 6f15c23c8b26e3842a2ac8d046c8692a, type: 3}
+  - {fileID: 8300000, guid: 85808c75f0f1cf246980980e9b6a2614, type: 3}

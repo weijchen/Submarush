@@ -251,7 +251,7 @@ namespace Team73.Round5.Racing
                 {
                     if (isPunished)
                     {
-                        moveInputVal += transform.forward * (GameManager.Instance.forwardForceMulti / 2);
+                        moveInputVal += transform.forward * (GameManager.Instance.forwardForceMulti / 10);
                     }
                     else
                     {
@@ -274,7 +274,7 @@ namespace Team73.Round5.Racing
                 {
                     if (isPunished)
                     {
-                        moveInputVal += transform.forward * (GameManager.Instance.forwardForceMulti / 2);
+                        moveInputVal += transform.forward * (GameManager.Instance.forwardForceMulti / 10);
                     }
                     else
                     {
@@ -308,6 +308,7 @@ namespace Team73.Round5.Racing
         public void Punish()
         {
             isPunished = true;
+            SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
         }
     }
 }

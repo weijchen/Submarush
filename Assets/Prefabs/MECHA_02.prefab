@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 82375997887403843}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6635079536308301146}
   - component: {fileID: 6635079536308301140}
   - component: {fileID: 6635079536308301147}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RightEngineParticle_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4904,7 +4904,7 @@ GameObject:
   - component: {fileID: 6635079536816745890}
   - component: {fileID: 6635079536816745820}
   - component: {fileID: 6635079536816745891}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HitParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9766,7 +9766,7 @@ GameObject:
   - component: {fileID: 6635079536936900028}
   - component: {fileID: 6635079536936900030}
   - component: {fileID: 6635079536936900029}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LeftEngineParticle_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14633,9 +14633,9 @@ GameObject:
   - component: {fileID: 6635079537195903799}
   - component: {fileID: 6635079537195903802}
   - component: {fileID: 6635079537195903801}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mecha
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14755,6 +14755,7 @@ MonoBehaviour:
   spinPoint: {fileID: 8154569490371674033}
   playerOpt: 2
   uIManager: {fileID: 0}
+  punishTime: 2
   hitParticle: {fileID: 6635079536816745820}
   LeftEngineParticleOne: {fileID: 6635079536936900030}
   LeftEngineParticleTwo: {fileID: 6635079537739629016}
@@ -14882,7 +14883,7 @@ GameObject:
   - component: {fileID: 6635079537542263561}
   - component: {fileID: 6635079537542263563}
   - component: {fileID: 6635079537542263562}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RightEngineParticle_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19744,7 +19745,7 @@ GameObject:
   - component: {fileID: 6635079537739629022}
   - component: {fileID: 6635079537739629016}
   - component: {fileID: 6635079537739629023}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LeftEngineParticle_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24604,7 +24605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8154569490371674033}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SpinPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24635,7 +24636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8226475591701440915}
   - component: {fileID: 8226475591701440924}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24686,7 +24687,7 @@ GameObject:
   - component: {fileID: 8226475592279386948}
   - component: {fileID: 8226475592279386971}
   - component: {fileID: 8226475592279386970}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24779,7 +24780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8226475592395795468}
   - component: {fileID: 8226475592395795459}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24826,7 +24827,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8226475592440372405}
   - component: {fileID: 8226475592440372406}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24877,9 +24878,9 @@ GameObject:
   - component: {fileID: 8226475592837915745}
   - component: {fileID: 8226475592837915744}
   - component: {fileID: 8226475592837915751}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MECHA_02
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24989,7 +24990,7 @@ GameObject:
   - component: {fileID: 8226475593101264800}
   - component: {fileID: 8226475593101264807}
   - component: {fileID: 8226475593101264806}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25082,7 +25083,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8226475593635148880}
   - component: {fileID: 8226475593635148887}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Controller (right)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

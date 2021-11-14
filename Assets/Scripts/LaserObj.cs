@@ -16,7 +16,6 @@ public class LaserObj : MonoBehaviour
     private void Start()
     {
         laserBeam.SetActive(false);
-        LaunchLaser();
     }
 
     private void LaunchLaser()
@@ -43,6 +42,7 @@ public class LaserObj : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
+            Debug.Log("enter");
             LaunchLaser();
         }
     }

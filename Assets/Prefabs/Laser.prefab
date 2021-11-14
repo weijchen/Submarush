@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 2750989123963958555}
   - component: {fileID: 8934254999091440864}
   - component: {fileID: 663256627680103506}
+  - component: {fileID: 725030249}
+  - component: {fileID: 550031880343719451}
   m_Layer: 0
   m_Name: Laser_Beam
   m_TagString: Untagged
@@ -113,6 +115,31 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &725030249
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400617653876298915}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 28.000002, z: 0.6000001}
+  m_Center: {x: -3.5899672e-38, y: 5.984127e-15, z: 0}
+--- !u!114 &550031880343719451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7400617653876298915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d05616958c9ed42823a1dc36119d7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8621921520806725949
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +151,8 @@ GameObject:
   - component: {fileID: 697537010419637975}
   - component: {fileID: 5229945481651431808}
   - component: {fileID: 893171355198606544}
+  - component: {fileID: 3106393958985147495}
+  - component: {fileID: 4578589940202535058}
   m_Layer: 0
   m_Name: Laser_Base
   m_TagString: Untagged
@@ -194,3 +223,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3106393958985147495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621921520806725949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530f220f1f8ae61488245bbf567a6186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserBeam: {fileID: 7400617653876298915}
+  waitForLaser: 1
+  lastForLaserMax: 4
+  numberOfLaserMax: 10
+--- !u!65 &4578589940202535058
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8621921520806725949}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 30.716085, y: 30, z: 32.732998}
+  m_Center: {x: -0.0663023, y: -4.2528438e-23, z: 15.866495}

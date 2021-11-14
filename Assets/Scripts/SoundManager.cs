@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 namespace Team73.Round5.Racing
 {
-    
     public class SoundManager : MonoBehaviour
     {
         public static SoundManager Instance = null;

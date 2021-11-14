@@ -9,13 +9,21 @@ public class LaserObj : MonoBehaviour
     [SerializeField] private GameObject laserBeam;
     [SerializeField] private float waitForLaser = 1.0f;
     [SerializeField] private float lastForLaserMax = 4.0f;
-    [SerializeField] private int numberOfLaserMax = 10;
+    [SerializeField] private int numberOfLaserMax = 6;
 
     private int numberOfLaser = 0;
     
     private void Start()
     {
         laserBeam.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (numberOfLaser == numberOfLaserMax)
+        {
+            laserBeam.SetActive(false);
+        }
     }
 
     private void LaunchLaser()

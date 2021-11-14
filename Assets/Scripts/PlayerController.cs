@@ -32,6 +32,12 @@ namespace Team73.Round5.Racing
         [SerializeField] private ParticleSystem RightEngineParticleOne;
         [SerializeField] private ParticleSystem RightEngineParticleTwo;
 
+        [Header("Info Related")] 
+        [SerializeField] private ProgressBar _progressBarSelf;
+        [SerializeField] private ProgressBar _progressBarOther;
+        [SerializeField] private EnergyBar _energyBarSelf;
+        [SerializeField] private EnergyBar _energyBarOther;
+
         private Vector3 moveInputVal = Vector3.zero;
         
         private Rigidbody _rigidbody;
@@ -50,6 +56,7 @@ namespace Team73.Round5.Racing
         private bool isPunished = false;
         private float timer = 0;
         private int energyCollected = 0;
+        private int currProgress = 0;
         private bool canMove = true;
 
         private void Start()
@@ -60,62 +67,11 @@ namespace Team73.Round5.Racing
             if (GameManager.Instance.useTracker)
             {
                 trackerPosition = controller.transform.position;
-                Calibration();
             }
-            else
-            {
-                isCalibrating = false;
-                LeftEngineParticleOne.Play();
-                LeftEngineParticleTwo.Play();
-                RightEngineParticleOne.Play();
-                RightEngineParticleTwo.Play();
-            }
+            
+            Calibration();
         }
-
-        void Calibration()
-        {
-            StartCoroutine(StartCalibration(GameManager.Instance.calibrationSmoothness, GameManager.Instance.calibrationDuration));
-        }
-
-        IEnumerator StartCalibration(float smoothness, float duration)
-        {
-            float progress = 0f;
-            string calibrateString;
-            List<float> xList = new List<float>();
-            List<float> yList = new List<float>();
-            List<float> zList = new List<float>();
-            while (progress <= duration)
-            {
-                progress += smoothness;
-                xList.Add(trackerPosition.x);
-                yList.Add(trackerPosition.y);
-                zList.Add(trackerPosition.z);
-                if (progress <= 1)
-                {
-                    calibrateString = "Ready";
-                }
-                else if (progress >= duration-1)
-                {
-                    calibrateString = "Go!";
-                }
-                else
-                {
-                    calibrateString = Mathf.RoundToInt(duration - progress).ToString();
-                }
-                uIManager.SetCalibrateWord(calibrateString);
-                yield return new WaitForSeconds(smoothness);
-            }
-            initTrackLPosX = xList.Average();
-            initTrackLPosY = yList.Average();
-            initTrackLPosZ = zList.Average();
-            isCalibrating = false;
-            uIManager.FinishCalibrate();
-            LeftEngineParticleOne.Play();
-            LeftEngineParticleTwo.Play();
-            RightEngineParticleOne.Play();
-            RightEngineParticleTwo.Play();
-        }
-
+        
         void Update()
         {
             GetTrackerTransform();
@@ -143,11 +99,6 @@ namespace Team73.Round5.Racing
                 }
             }
         }
-
-        void GetTrackerTransform()
-        {
-            trackerPosition = controller.transform.position;
-        }
         
         private void FixedUpdate()
         {
@@ -158,6 +109,64 @@ namespace Team73.Round5.Racing
             { 
                 _rigidbody.velocity = _rigidbody.velocity.normalized * GameManager.Instance.maxDirSpeed * Time.deltaTime;
             }
+        }
+
+        void Calibration()
+        {
+            StartCoroutine(StartCalibration(GameManager.Instance.calibrationSmoothness, GameManager.Instance.calibrationDuration));
+        }
+
+        IEnumerator StartCalibration(float smoothness, float duration)
+        {
+            float progress = 0f;
+            string calibrateString;
+            List<float> xList = new List<float>();
+            List<float> yList = new List<float>();
+            List<float> zList = new List<float>();
+            
+            while (progress <= duration)
+            {
+                progress += smoothness;
+                if (GameManager.Instance.useTracker)
+                {
+                    xList.Add(trackerPosition.x);
+                    yList.Add(trackerPosition.y);
+                    zList.Add(trackerPosition.z);
+                }
+                if (progress <= 1)
+                {
+                    calibrateString = "Ready";
+                }
+                else if (progress >= duration-1)
+                {
+                    calibrateString = "Go!";
+                }
+                else
+                {
+                    calibrateString = Mathf.RoundToInt(duration - progress).ToString();
+                }
+                uIManager.SetCalibrateWord(calibrateString);
+                yield return new WaitForSeconds(smoothness);
+            }
+
+            if (GameManager.Instance.useTracker)
+            {
+                initTrackLPosX = xList.Average();
+                initTrackLPosY = yList.Average();
+                initTrackLPosZ = zList.Average();
+            }
+            
+            LeftEngineParticleOne.Play();
+            LeftEngineParticleTwo.Play();
+            RightEngineParticleOne.Play();
+            RightEngineParticleTwo.Play();
+            isCalibrating = false;
+            uIManager.FinishCalibrate();
+        }
+
+        void GetTrackerTransform()
+        {
+            trackerPosition = controller.transform.position;
         }
         
         private void AddDirectionalForce()
@@ -318,6 +327,8 @@ namespace Team73.Round5.Racing
 
         public void CollectEnergy()
         {
+            _energyBarSelf.EnableEnergyOnGrid(energyCollected);
+            _energyBarOther.EnableEnergyOnGrid(energyCollected);
             energyCollected += 1;
             SoundManager.Instance.PlayCollectSFX(energyCollected-1);
         }
@@ -325,6 +336,13 @@ namespace Team73.Round5.Racing
         public int GetCollectEnergy()
         {
             return energyCollected;
+        }
+
+        public void AdvanceProgress()
+        {
+            _progressBarSelf.EnableProgressOnGrid(currProgress);
+            _progressBarOther.EnableProgressOnGrid(currProgress);
+            currProgress += 1;
         }
 
         public void DestroySelf()
@@ -335,4 +353,3 @@ namespace Team73.Round5.Racing
         }
     }
 }
-

@@ -87,10 +87,9 @@ namespace Team73.Round5.Racing
             }
             
             shield.SetActive(false);
-            winImage.enabled = true;
-            loseImage.enabled = true;
+            winImage.enabled = false;
+            loseImage.enabled = false;
             Calibration();
-            // StartCoroutine(StartEnding(winImage, 0.01f, 2f));
         }
         
         void Update()
@@ -127,19 +126,6 @@ namespace Team73.Round5.Racing
                     REngineParticleTwoBubble.Play();
                     GetComponent<MeshRenderer>().material.color = Color.white;
                 }
-            }
-        }
-
-        IEnumerator StartEnding(Image i, float smoothness, float duration)
-        {
-            float progress = 0;
-            // float step = smoothness / duration;
-            i.material.color = new Color(i.material.color.r, i.material.color.g, i.material.color.b, 0);
-            while (progress < duration)
-            {
-                i.material.color = Color.Lerp(i.material.color, new Color(i.material.color.r, i.material.color.g, i.material.color.b, 255), progress / duration);
-                progress += Time.deltaTime;
-                yield return new WaitForSeconds(smoothness);
             }
         }
         
@@ -454,13 +440,24 @@ namespace Team73.Round5.Racing
             REngineParticleTwoBlast.Stop();
             REngineParticleTwoBubble.Stop();
             loseImage.enabled = true;
-            StartCoroutine(StartEnding(loseImage, 0.01f, 2f));
+            StartCoroutine(StartEnding(loseImage, 2f));
         }
 
         public void Victory()
         {
             winImage.enabled = true;
-            StartCoroutine(StartEnding(winImage, 0.01f, 2f));
+            StartCoroutine(StartEnding(winImage, 2f));
+        }
+
+        IEnumerator StartEnding(Image i, float duration)
+        {
+            float progress = 0;
+            while (progress < duration)
+            {
+                i.material.color = Color.Lerp(new Color(i.material.color.r, i.material.color.g, i.material.color.b, 0), new Color(i.material.color.r, i.material.color.g, i.material.color.b, 1), progress / duration);
+                progress += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 }

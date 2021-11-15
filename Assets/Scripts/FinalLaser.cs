@@ -18,9 +18,7 @@ public class FinalLaser : MonoBehaviour
             int energy = other.gameObject.GetComponent<PlayerController>().GetCollectEnergy();
             if (energy >= GameManager.Instance.energyToPass && !hasPass)
             {
-                Collider collider = other.GetComponent<Collider>();
                 finalDoor.OpenDoor();
-                collider.enabled = false;
                 finalDoorSymbol.SetActive(false);
                 hasPass = true;
                 other.GetComponent<PlayerController>().BreakShield();

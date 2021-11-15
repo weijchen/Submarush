@@ -11,7 +11,6 @@ public class FinalFog : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            Debug.Log("hi");
             other.GetComponent<PlayerController>().Victory();
         }
     }

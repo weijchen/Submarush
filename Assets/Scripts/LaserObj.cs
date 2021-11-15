@@ -59,7 +59,6 @@ public class LaserObj : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            Debug.Log("enter");
             LaunchLaser();
         }
     }

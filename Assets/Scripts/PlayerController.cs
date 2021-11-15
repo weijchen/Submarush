@@ -214,16 +214,16 @@ namespace Team73.Round5.Racing
                     horizontalForce = 0f;
                 }
 
-                verticalForce = trackerPosition.y - initTrackLPosY;
+                verticalForce = trackerPosition.x - initTrackLPosX;
                 //Debug.LogFormat("Vertical Force: {0}", vertForce);
 
                 if (verticalForce >= GameManager.Instance.verticalThreshold)
                 {
-                    verticalForce = GameManager.Instance.verticalForceMulti;
+                    verticalForce = -GameManager.Instance.verticalForceMulti;
                 } 
                 else if (verticalForce <= -GameManager.Instance.verticalThreshold)
                 {
-                    verticalForce = -GameManager.Instance.verticalForceMulti;
+                    verticalForce = GameManager.Instance.verticalForceMulti;
                 } 
                 else
                 {

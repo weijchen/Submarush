@@ -49,12 +49,13 @@ MonoBehaviour:
   useTracker: 0
   runClip: {fileID: 8300000, guid: 375c6ec8091e214419da43c303c934c8, type: 3}
   hitClip: {fileID: 8300000, guid: 2ee0d6d8a2f848d4ba04c74702f9b28b, type: 3}
-  calibrationSmoothness: 0.01
+  calibrationSmoothness: 0.05
   calibrationDuration: 4
-  verticalForceMulti: 10
-  horizontalForceMulti: 5
+  energyToPass: 10
+  verticalForceMulti: 20
+  horizontalForceMulti: 10
   maxDirSpeed: 200
-  forwardForceMulti: 50
+  forwardForceMulti: 30
   drag: 2
   rotationMulti: 0.05
   verticalThreshold: 0.1

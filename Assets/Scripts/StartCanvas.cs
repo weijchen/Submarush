@@ -9,6 +9,7 @@ namespace Team73.Round5.Racing
 {
     public class StartCanvas : MonoBehaviour
     {
+        [SerializeField] private bool isStory = false;
         [SerializeField] private bool isTutorial = false;
         [SerializeField] private float timeToChg = 5.0f;
 
@@ -24,9 +25,17 @@ namespace Team73.Round5.Racing
                 }
                 else
                 {
+                    SceneManager.LoadScene((int)SceneIndex.Story);
+                }
+            }
+
+            if (isStory)
+            {
+                if (Input.GetKey(KeyCode.Space))
+                {
                     SoundManager.Instance.StopPlay();
                     SoundManager.Instance.PlayBGM(1);
-                    SceneManager.LoadScene((int)SceneIndex.Story);
+                    SceneManager.LoadScene((int) SceneIndex.Main);
                 }
             }
         }

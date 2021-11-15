@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Team73.Round5.Racing
 {
@@ -22,6 +23,8 @@ namespace Team73.Round5.Racing
         [SerializeField] public PlayerOpt playerOpt = PlayerOpt.P1;
         [SerializeField] private UIManager uIManager;
         [SerializeField] private float punishTime = 2.0f;
+        [SerializeField] private Image winImage;
+        [SerializeField] private Image loseImage;
 
         [Header("VFX")]
         [SerializeField] private ParticleSystem hitParticle;
@@ -69,6 +72,9 @@ namespace Team73.Round5.Racing
         private bool hasPlayTwo = false;
         private bool hasPlayOne = false;
         private bool hasPlayGo = false;
+        private bool showEnding = false;
+        private bool isWinner = false;
+        public bool isShieldOpen = false;
 
         private void Start()
         {
@@ -81,8 +87,10 @@ namespace Team73.Round5.Racing
             }
             
             shield.SetActive(false);
-            
+            winImage.enabled = true;
+            loseImage.enabled = true;
             Calibration();
+            // StartCoroutine(StartEnding(winImage, 0.01f, 2f));
         }
         
         void Update()
@@ -121,6 +129,19 @@ namespace Team73.Round5.Racing
                 }
             }
         }
+
+        IEnumerator StartEnding(Image i, float smoothness, float duration)
+        {
+            float progress = 0;
+            // float step = smoothness / duration;
+            i.material.color = new Color(i.material.color.r, i.material.color.g, i.material.color.b, 0);
+            while (progress < duration)
+            {
+                i.material.color = Color.Lerp(i.material.color, new Color(i.material.color.r, i.material.color.g, i.material.color.b, 255), progress / duration);
+                progress += Time.deltaTime;
+                yield return new WaitForSeconds(smoothness);
+            }
+        }
         
         private void FixedUpdate()
         {
@@ -148,7 +169,7 @@ namespace Team73.Round5.Racing
             
             while (progress <= duration)
             {
-                progress += smoothness;
+                progress += Time.deltaTime;
                 if (GameManager.Instance.useTracker)
                 {
                     xList.Add(trackerPosition.x);
@@ -159,33 +180,35 @@ namespace Team73.Round5.Racing
                 {
                     calibrateString = "Ready";
                 }
-                else if (progress >= duration-1)
+                else if (progress > duration-1)
                 {
-                    if (!hasPlayGo)
-                        SoundManager.Instance.PlaySFX(GameManager.Instance.startClip);
+                    
                     calibrateString = "Go!";
                 }
                 else
                 {
-                    if (progress > 1)
+                    if (progress > 0.8f && !hasPlayOne)
                     {
-                        if (!hasPlayOne)
-                            SoundManager.Instance.PlaySFX(GameManager.Instance.countdownClip);
+                        hasPlayOne = true;
+                        SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Countdown]);
                     }
-                    else if (progress > 2)
+                    
+                    if (progress > 1.8f && !hasPlayTwo)
                     {
-                        if (!hasPlayOne)
-                            SoundManager.Instance.PlaySFX(GameManager.Instance.countdownClip);
+                        hasPlayTwo = true;
+                        SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Countdown]);
                     }
-                    else if (progress > 3)
+                    
+                    if (progress > 2.8f && !hasPlayThree)
                     {
-                        if (!hasPlayOne)
-                            SoundManager.Instance.PlaySFX(GameManager.Instance.countdownClip);
+                        hasPlayThree = true;
+                        SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Countdown]);
                     }
+                    
                     calibrateString = Mathf.RoundToInt(duration - progress).ToString();
                 }
                 uIManager.SetCalibrateWord(calibrateString);
-                yield return new WaitForSeconds(smoothness);
+                yield return null;
             }
 
             if (GameManager.Instance.useTracker)
@@ -383,9 +406,11 @@ namespace Team73.Round5.Racing
             _energyBarSelf.EnableEnergyOnGrid(energyCollected);
             _energyBarOther.EnableEnergyOnGrid(energyCollected);
             energyCollected += 1;
-            SoundManager.Instance.PlayCollectSFX(energyCollected-1);
+            SoundManager.Instance.PlayCollectSFX(energyCollected);
             if (energyCollected == GameManager.Instance.energyToPass)
             {
+                isShieldOpen = true;
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Shield]);
                 shield.SetActive(true);
             }
             orbCollectVFX.Play();
@@ -428,6 +453,14 @@ namespace Team73.Round5.Racing
             REngineParticleOneBubble.Stop();
             REngineParticleTwoBlast.Stop();
             REngineParticleTwoBubble.Stop();
+            loseImage.enabled = true;
+            StartCoroutine(StartEnding(loseImage, 0.01f, 2f));
+        }
+
+        public void Victory()
+        {
+            winImage.enabled = true;
+            StartCoroutine(StartEnding(winImage, 0.01f, 2f));
         }
     }
 }

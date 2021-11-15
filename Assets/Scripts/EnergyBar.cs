@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Team73.Round5.Racing;
 using UnityEngine;
 
 public class EnergyBar : MonoBehaviour
@@ -16,6 +17,7 @@ public class EnergyBar : MonoBehaviour
 
     public void EnableEnergyOnGrid(int gridIndex)
     {
-        energyGrid[gridIndex].SetActive(true);
+        if (gridIndex < GameManager.Instance.energyToPass)
+            energyGrid[gridIndex].SetActive(true);
     }
 }

@@ -10,8 +10,11 @@ public class Energy : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerController>().CollectEnergy();
-            gameObject.SetActive(false);
+            if (!other.GetComponent<PlayerController>().isShieldOpen)
+            {
+                other.GetComponent<PlayerController>().CollectEnergy();
+                gameObject.SetActive(false);
+            }
         }
     }
 }

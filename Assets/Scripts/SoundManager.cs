@@ -10,15 +10,17 @@ namespace Team73.Round5.Racing
     {
         CarDrive = 0,
         Door = 1,
+        Countdown = 2,
+        Shield = 3,
     }
     
     public class SoundManager : MonoBehaviour
     {
         public static SoundManager Instance = null;
 
-        [SerializeField] private AudioClip[] bgmList;
-        [SerializeField] private AudioClip[] sfxList;
-        [SerializeField] private AudioClip[] collectList;
+        [SerializeField] public AudioClip[] bgmList;
+        [SerializeField] public AudioClip[] sfxList;
+        [SerializeField] public AudioClip[] collectList;
         
         private int curScene = 0;
         private bool isBGMPlaying = false;

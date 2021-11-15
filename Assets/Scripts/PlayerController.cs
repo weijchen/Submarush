@@ -65,6 +65,10 @@ namespace Team73.Round5.Racing
         private int energyCollected = 0;
         private int currProgress = 0;
         private bool canMove = true;
+        private bool hasPlayThree = false;
+        private bool hasPlayTwo = false;
+        private bool hasPlayOne = false;
+        private bool hasPlayGo = false;
 
         private void Start()
         {
@@ -157,10 +161,27 @@ namespace Team73.Round5.Racing
                 }
                 else if (progress >= duration-1)
                 {
+                    if (!hasPlayGo)
+                        SoundManager.Instance.PlaySFX(GameManager.Instance.startClip);
                     calibrateString = "Go!";
                 }
                 else
                 {
+                    if (progress > 1)
+                    {
+                        if (!hasPlayOne)
+                            SoundManager.Instance.PlaySFX(GameManager.Instance.countdownClip);
+                    }
+                    else if (progress > 2)
+                    {
+                        if (!hasPlayOne)
+                            SoundManager.Instance.PlaySFX(GameManager.Instance.countdownClip);
+                    }
+                    else if (progress > 3)
+                    {
+                        if (!hasPlayOne)
+                            SoundManager.Instance.PlaySFX(GameManager.Instance.countdownClip);
+                    }
                     calibrateString = Mathf.RoundToInt(duration - progress).ToString();
                 }
                 uIManager.SetCalibrateWord(calibrateString);
@@ -396,6 +417,8 @@ namespace Team73.Round5.Racing
             }
             SoundManager.Instance.PlaySFX(GameManager.Instance.hitClip);
             GetComponent<Rigidbody>().useGravity = true;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            GetComponent<Rigidbody>().angularDrag = 1.0f;
             canMove = false;
             LEngineParticleOneBlast.Stop();
             LEngineParticleOneBubble.Stop();

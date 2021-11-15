@@ -16,8 +16,6 @@ public class EnergyBar : MonoBehaviour
 
     public void EnableEnergyOnGrid(int gridIndex)
     {
-        Debug.Log("hi");
-        Debug.Log(gridIndex);
         energyGrid[gridIndex].SetActive(true);
     }
 }

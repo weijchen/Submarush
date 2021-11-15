@@ -7,6 +7,15 @@ using Debug = UnityEngine.Debug;
 
 namespace Team73.Round5.Racing
 {
+    public enum SceneIndex : int
+    {
+        Start = 0,
+        Tutorial = 1,
+        Story = 2,
+        Main = 3,
+        End = 4
+    }
+    
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance = null;
@@ -19,6 +28,8 @@ namespace Team73.Round5.Racing
         [SerializeField] public bool useTracker = false;
         [SerializeField] public AudioClip runClip;
         [SerializeField] public AudioClip hitClip;
+        [SerializeField] public AudioClip countdownClip;
+        [SerializeField] public AudioClip startClip;
         [SerializeField] public float calibrationSmoothness = 0.01f;
         [SerializeField] public float calibrationDuration = 4.0f;
         [SerializeField] public int energyToPass = 10;

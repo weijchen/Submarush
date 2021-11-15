@@ -11,10 +11,13 @@ public class DoorObj : MonoBehaviour
     [SerializeField] private Transform rightEndTransform;
     [SerializeField] private float smoothness = 0.01f;
     [SerializeField] private float duration = 2f;
+    [SerializeField] private ParticleSystem finalFog;
 
     public void OpenDoor()
     {
         StartCoroutine(StartOpenDoor(smoothness, duration));
+        if (finalFog != null)
+            finalFog.Play();
     }
 
     IEnumerator StartOpenDoor(float smoothness, float duration)

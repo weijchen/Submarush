@@ -57,7 +57,7 @@ MonoBehaviour:
   maxDirSpeed: 200
   forwardForceMulti: 30
   drag: 2
-  rotationMulti: 0.05
+  rotationMulti: 0.1
   verticalThreshold: 0.1
   horizontalThreshold: 0.1
   forwardThreshold: 0.1

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 82375997887403843}
   m_Layer: 0
-  m_Name: Main_03
+  m_Name: Main_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14691,7 +14691,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0e39432818081647bb87462351a06bc, type: 2}
+  - {fileID: 2100000, guid: 0b72d97cdbc693040b207388eb24b732, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24951,7 +24951,7 @@ GameObject:
   - component: {fileID: 8226475592837915744}
   - component: {fileID: 8226475592837915751}
   m_Layer: 0
-  m_Name: MECHA_03
+  m_Name: MECHA_04_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

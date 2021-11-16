@@ -173,22 +173,28 @@ namespace Team73.Round5.Racing
                 }
                 else
                 {
-                    if (progress > 0.8f && !hasPlayOne)
+                    if (progress > 0.7f && !hasPlayOne)
                     {
                         hasPlayOne = true;
                         SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Countdown]);
                     }
                     
-                    if (progress > 1.8f && !hasPlayTwo)
+                    if (progress > 1.7f && !hasPlayTwo)
                     {
                         hasPlayTwo = true;
                         SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Countdown]);
                     }
                     
-                    if (progress > 2.8f && !hasPlayThree)
+                    if (progress > 2.7f && !hasPlayThree)
                     {
                         hasPlayThree = true;
                         SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Countdown]);
+                    }
+                    
+                    if (progress >= 2.95f && !hasPlayGo)
+                    {
+                        hasPlayGo = true;
+                        SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Start]);
                     }
                     
                     calibrateString = Mathf.RoundToInt(duration - progress).ToString();
@@ -303,7 +309,8 @@ namespace Team73.Round5.Racing
                 if (playerOpt == PlayerOpt.P1)
                 {
                     hasForwardForce = Input.GetKey(KeyCode.A);
-                } else
+                } 
+                else
                 {
                     hasForwardForce = Input.GetKey(KeyCode.L);
                 }
@@ -395,8 +402,8 @@ namespace Team73.Round5.Racing
             SoundManager.Instance.PlayCollectSFX(energyCollected);
             if (energyCollected == GameManager.Instance.energyToPass)
             {
-                isShieldOpen = true;
                 SoundManager.Instance.PlaySFX(SoundManager.Instance.sfxList[(int)SFXList.Shield]);
+                isShieldOpen = true;
                 shield.SetActive(true);
             }
             orbCollectVFX.Play();

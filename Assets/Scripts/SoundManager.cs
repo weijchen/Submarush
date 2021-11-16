@@ -12,6 +12,7 @@ namespace Team73.Round5.Racing
         Door = 1,
         Countdown = 2,
         Shield = 3,
+        Start = 4
     }
     
     public class SoundManager : MonoBehaviour

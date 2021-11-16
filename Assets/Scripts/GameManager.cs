@@ -20,16 +20,9 @@ namespace Team73.Round5.Racing
     {
         public static GameManager Instance = null;
 
-        [Tooltip("Prefab")] 
-        public GameObject playerOnePrefab;
-        public GameObject playerTwoPrefab;
-        
         [Header("General")]
         [SerializeField] public bool useTracker = false;
-        [SerializeField] public AudioClip runClip;
         [SerializeField] public AudioClip hitClip;
-        [SerializeField] public AudioClip countdownClip;
-        [SerializeField] public AudioClip startClip;
         [SerializeField] public float calibrationSmoothness = 0.01f;
         [SerializeField] public float calibrationDuration = 4.0f;
         [SerializeField] public int energyToPass = 10;
@@ -58,14 +51,6 @@ namespace Team73.Round5.Racing
             else
             {
                 Instance = this;
-            }
-        }
-
-        private void Start()
-        {
-            if (playerOnePrefab == null || playerTwoPrefab == null)
-            {
-                Debug.LogError("playerPrefab is missing, please set in Game Manager");
             }
         }
     }

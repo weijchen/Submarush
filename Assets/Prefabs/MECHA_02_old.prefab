@@ -5540,7 +5540,7 @@ GameObject:
   - component: {fileID: 8226475592837915744}
   - component: {fileID: 8226475592837915751}
   m_Layer: 3
-  m_Name: MECHA_02
+  m_Name: MECHA_02_old
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

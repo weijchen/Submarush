@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Team73.Round5.Racing
 {
@@ -47,6 +48,7 @@ namespace Team73.Round5.Racing
         [SerializeField] private ProgressBar _progressBarOther;
         [SerializeField] private EnergyBar _energyBarSelf;
         [SerializeField] private EnergyBar _energyBarOther;
+        [SerializeField] private TMP_Text energyCount;
 
         private Vector3 moveInputVal = Vector3.zero;
         
@@ -399,6 +401,7 @@ namespace Team73.Round5.Racing
             _energyBarSelf.EnableEnergyOnGrid(energyCollected);
             _energyBarOther.EnableEnergyOnGrid(energyCollected);
             energyCollected += 1;
+            energyCount.text = energyCollected + "/10";
             SoundManager.Instance.PlayCollectSFX(energyCollected);
             if (energyCollected == GameManager.Instance.energyToPass)
             {

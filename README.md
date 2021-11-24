@@ -8,7 +8,7 @@
   - Programmers: Wei-Cheng Chen (Me), Hannah Baxter
   - Arts: Justin Yook, Jinman Li
   - Sounds: Tiange Zhou
-- Introduction: Introduction: You are a mecha pilot trapped in an underwater lab, and your mission is to escape the tunnel before it is too late! However, there are other players escaping from the tunnel. Try your best to drive faster than other mechas! Specifically, we come up with the idea of using tee ball as the mecha's controller. Tee ball's flexibility in 2D shifting helps us create a smooth controlling experience for the players. Furthermore, we build a pedal with Makey Makey to handle mechas' engine operation.
+- Introduction: You are a mecha pilot trapped in an underwater lab, and your mission is to escape the tunnel before it is too late! However, there are other players escaping from the tunnel. Try your best to drive faster than other mechas! Specifically, we come up with the idea of using tee ball as the mecha's controller. Tee ball's flexibility in 2D shifting helps us create a smooth controlling experience for the players. Furthermore, we build a pedal with Makey Makey to handle mechas' engine operation.
 
 # Notable Contributions
 1. Implemented the player controller (physically and programmatically) with Vive tracker and Makey Makey for the Mecha
